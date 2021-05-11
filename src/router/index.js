@@ -27,9 +27,15 @@ const routes = [
   },
   {
     path: '/admin',
-    name: 'admin',
     component: () => import('../views/Backhome.vue'),
     meta: { requiresAuth: true },
+    children: [
+      {
+        path: '/',
+        name: 'admin',
+        component: () => import('../pages/backEnd/Backproduct.vue'),
+      },
+    ],
   },
 ];
 

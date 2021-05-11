@@ -44,7 +44,13 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "prefer-destructuring": ["error", {"object": true, "array": false}]
+      "prefer-destructuring": [
+        "error",
+        {
+          "object": true,
+          "array": false
+        }
+      ]
     }
   },
   "browserslist": [

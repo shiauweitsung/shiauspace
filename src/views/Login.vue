@@ -50,7 +50,6 @@ export default {
       const url = `${process.env.VUE_APP_API}/admin/signin`;
       const vm = this;
       this.$http.post(url, vm.form).then((res) => {
-        console.log(res);
         // 如果登入失敗，就跳出error
         if (!res.data.success) {
           alert('error');
@@ -82,7 +81,6 @@ export default {
         // 將值再切割，依序帶入cookie
         for (let i = 0; i < arr.length; i += 1) {
           const val2 = arr[i].split('=');
-          console.log(val2, 'val2');
           if (val2[0] === 'username') {
             this.form.username = val2[1];
           } else if (val2[0] === 'password') {

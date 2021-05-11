@@ -95,10 +95,10 @@ section {
 }
 
 body {
-  line-height: 1rem;
   font-size: 14px;
   position: relative;
   font-family: 'Noto Serif TC', serif;
+  color: #fff;
 }
 
 h1,
@@ -188,3 +188,13 @@ input[type='number'] {
 textarea {
   resize: none;
 }
+
+.back-wrap {
+  margin-left: 260px;
+}
+
+$color:(main:#0f2027,
+  second: #203a43,
+  three: #2c5364,
+  hover:#71faa9,
+)
