@@ -1,7 +1,7 @@
 <template>
   <div class="back">
     <backHeader />
-    <router-view></router-view>
+    <router-view class="back-wrap"></router-view>
   </div>
 </template>
 <script>

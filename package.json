@@ -50,7 +50,10 @@
           "object": true,
           "array": false
         }
-      ]
+      ],
+      "max-len": ["error", { "code": 150 }],
+      "no-tabs":"off",
+      "no-param-reassign": [2, { "props": false }]
     }
   },
   "browserslist": [
