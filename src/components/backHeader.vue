@@ -221,7 +221,7 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import '~@/assets/base/base.scss';
 .back-header {
   position: fixed;
@@ -235,6 +235,7 @@ export default {
   background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
   font-size: 30px;
   padding: 10px 0px;
+  z-index: 99999;
   @media (max-width: 768px) {
     left: 0px;
     width: 100vw;
@@ -259,28 +260,6 @@ export default {
       margin-right: 30px;
       display: flex;
       align-items: center;
-    }
-    @at-root {
-      .el-dropdown-link {
-        cursor: pointer;
-      }
-      .el-dropdown-menu {
-        background-color: map-get($color, main);
-      }
-      .el-dropdown-menu__item {
-        color: #fff;
-      }
-      .el-dropdown-menu__item:focus,
-      .el-dropdown-menu__item:not(.is-disabled):hover {
-        background-color: map-get($color, three);
-        color: #fff;
-      }
-      .el-popper[x-placement^='bottom'] .popper__arrow {
-        border-bottom-color: map-get($color, main);
-      }
-      .el-popper[x-placement^='bottom'] .popper__arrow::after {
-        border-bottom-color: map-get($color, main);
-      }
     }
     &-lauguage {
       margin-right: 15px;

@@ -12,7 +12,7 @@ export default {
         console.log(res);
         if (res.data.success) {
           Object.keys(res.data.products).forEach((item) => {
-            console.log(res.data, item);
+            // console.log(res.data, item);
             res.data.products[item].setting = false;
           });
           context.commit('PRODUCTS', res.data.products);

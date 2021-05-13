@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import 'element-ui/lib/theme-chalk/base.css';
+import CollapseTransition from 'element-ui/lib/transitions/collapse-transition';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import App from './App.vue';
@@ -8,6 +10,7 @@ import router from './router';
 import store from './store';
 
 Vue.use(ElementUI);
+Vue.component(CollapseTransition.name, CollapseTransition);
 Vue.use(VueAxios, axios);
 
 Vue.config.productionTip = false;

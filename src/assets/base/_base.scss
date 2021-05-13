@@ -210,6 +210,40 @@ textarea {
     margin-left: 0px;
     padding: 0px;
   }
+
+  &>h3 {
+    color: black;
+    font-size: 24px;
+    margin-left: 15px;
+    padding-top: 15px;
+    display: inline-block;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      background: url('~@/assets/images/icon/flyman.png');
+      bottom: -20px;
+      width: 24px;
+      height: 24px;
+      transition: all;
+      animation: flys 1.5s ease-in-out infinite alternate;
+
+      @at-root {
+        @keyframes flys {
+          0% {
+            left: 0px;
+            transform: rotate(45deg);
+          }
+
+          100% {
+            left: 100%;
+            transform: scale3d(-1, 1, -1) rotate(45deg);
+          }
+        }
+      }
+    }
+  }
 }
 
 $color:(main:#0f2027,
@@ -217,4 +251,34 @@ $color:(main:#0f2027,
   three: #2c5364,
   hover:#71faa9,
 );
-$--color-primary: red;
+
+// element
+.el-dropdown-link {
+  cursor: pointer;
+}
+
+.el-dropdown-menu {
+  background-color: map-get($color, main);
+}
+
+.el-dropdown-menu__item {
+  color: #fff;
+}
+
+.el-dropdown-menu__item:focus,
+.el-dropdown-menu__item:not(.is-disabled):hover {
+  background-color: map-get($color, three);
+  color: #fff;
+}
+
+.el-popper[x-placement^='bottom'] .popper__arrow {
+  border-bottom-color: map-get($color, main);
+}
+
+.el-popper[x-placement^='bottom'] .popper__arrow::after {
+  border-bottom-color: map-get($color, main);
+}
+
+.el-popper[x-placement^='top'] .popper__arrow::after {
+  border-top-color: map-get($color, main);
+}
