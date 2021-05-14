@@ -8,22 +8,24 @@
         :key="i"
       >
         <div class="back-wrap-products-items-list">
-          <img :src="item.image" alt="" />
+          <img :src="item.image" alt="" :title="item.title" />
           <div class="back-wrap-products-items-list-info">
             <h4>{{ item.title }}</h4>
             <p>分類: {{ item.category }}</p>
             <p>贊助最低單位: {{ item.price }}</p>
-            <div class="back-wrap-products-items-edit">
-              <img
-                src="~@/assets/images/icon/settings.png"
-                alt=""
-                @click="editShow($event)"
-              />
-              <div class="back-wrap-products-items-edit-list">
-                <button>修改</button>
-                <button>刪除</button>
-              </div>
-            </div>
+          </div>
+        </div>
+        <div class="back-wrap-products-items-edit">
+          <img
+            src="~@/assets/images/icon/settings.png"
+            alt="編輯"
+            title="編輯"
+            class="back-wrap-products-items-edit-btn"
+            @click="editShow($event)"
+          />
+          <div class="back-wrap-products-items-edit-list">
+            <button>修改</button>
+            <button>刪除</button>
           </div>
         </div>
       </div>
@@ -45,12 +47,82 @@
       </svg>
     </div>
     <!-- modal -->
-    <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
-      <span>这是一段信息</span>
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="30%"
+      class="edit-modal"
+    >
+      <span>
+        <div class="edit-form">
+          <div class="edit-form-title edit-form-item">
+            <input
+              type="text"
+              class="edit-form-input"
+              id="title"
+              placeholder="標題"
+            />
+            <label for="title" class="edit-form-label">標題</label>
+          </div>
+          <div class="edit-form-category edit-form-item">
+            <input
+              type="text"
+              class="edit-form-input"
+              id="category"
+              placeholder="分類"
+            />
+            <label for="category" class="edit-form-label">分類</label>
+          </div>
+          <div class="edit-form-price edit-form-item">
+            <input
+              type="number"
+              class="edit-form-input"
+              id="price"
+              placeholder="贊助最低金額"
+            />
+            <label for="price" class="edit-form-label">贊助最低金額</label>
+          </div>
+          <div class="edit-form-unit edit-form-item">
+            <input
+              type="text"
+              class="edit-form-input"
+              id="unit"
+              placeholder="單位"
+            />
+            <label for="unit" class="edit-form-label">單位</label>
+          </div>
+          <div class="edit-form-description edit-form-item">
+            <textarea
+              name=""
+              cols="30"
+              rows="5"
+              class="edit-form-textarea"
+              id="description"
+            >
+            </textarea>
+            <label for="description" class="edit-form-label">介紹</label>
+          </div>
+          <div class="edit-form-content edit-form-item">
+            <textarea
+              name="content"
+              id=""
+              cols="30"
+              rows="5"
+              class="edit-form-textarea"
+            ></textarea>
+            <label for="content" class="edit-form-label">內容</label>
+          </div>
+        </div>
+      </span>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
-          >确 定</el-button
+        <el-button class="second-btn" @click="dialogVisible = false"
+          >取 消</el-button
+        >
+        <el-button
+          type="primary"
+          class="main-btn"
+          @click="dialogVisible = false"
+          >確 定</el-button
         >
       </span>
     </el-dialog>
@@ -69,21 +141,32 @@ export default {
     ...mapActions('backManage', ['getProducts']),
     editShow(e) {
       const dropmenu = document.getElementsByClassName('back-wrap-products-items-edit-list');
-      for (let i = 0; i < dropmenu.length; i += 1) {
-        const dropmeunlist = dropmenu[i];
-        dropmeunlist.classList.remove('show');
+      const thisBtn = document.getElementsByClassName('back-wrap-products-items-edit-btn');
+      for (let y = 0; y < dropmenu.length; y += 1) {
+        dropmenu[y].dataset.index = y + 1;
+        thisBtn[y].dataset.index = y + 1;
       }
-      e.target.nextElementSibling.classList.add('show');
+      // 第一次點擊時，還是false，所以不會執行全部關閉，第二次點擊時，已經為true，則執行全部關閉
+      if (!e.target.nextElementSibling.classList.contains('show')) {
+        for (let i = 0; i < dropmenu.length; i += 1) {
+          const dropmeunlist = dropmenu[i];
+          dropmeunlist.classList.remove('show');
+        }
+      }
+      const thisId = e.target.dataset.index;
+      const menuId = e.target.nextElementSibling.dataset.index;
+      if (thisId === menuId) {
+        e.target.nextElementSibling.classList.toggle('show');
+      }
     },
   },
   mounted() {
     window.onclick = function (e) {
-      console.log(e);
-      if (!e.target.matches('.back-wrap-products-items-edit-list')) {
-        console.log('true');
+      if (!e.target.matches('.back-wrap-products-items-edit img')) {
         const dropmenu = document.getElementsByClassName('back-wrap-products-items-edit-list show');
-        dropmenu.classList.remove('show');
-        console.log(dropmenu, 'dropmenu');
+        if (dropmenu.length > 0) {
+          dropmenu[0].classList.remove('show');
+        }
       }
     };
   },
@@ -108,6 +191,7 @@ export default {
     max-width: 33.33%;
     flex-basis: 33.33%;
     margin-bottom: 20px;
+    position: relative;
 
     @media (max-width: 1200px) {
       max-width: 49.99%;
@@ -150,15 +234,68 @@ export default {
       }
     }
     &-edit {
-      span {
-        & > img {
-          width: 24px;
-        }
+      position: absolute;
+      cursor: pointer;
+      right: 25px;
+      top: 10px;
+
+      & > img {
+        position: absolute;
+        right: 0px;
+        width: 24px;
       }
       &-list {
+        position: absolute;
+        top: 32px;
+        right: -3px;
+        visibility: hidden;
+        transition: all 0.2s ease-in-out;
+        background-color: map-get($color, main);
+        padding: 5px 0px;
+        border-radius: 6px;
         display: none;
-        &.show {
+        &::after {
+          content: '';
+          position: absolute;
+          width: 0px;
+          height: 0px;
+          top: -6px;
+          right: 10px;
+          border-style: solid;
+          border-color: transparent transparent map-get($color, main)
+            transparent;
+          border-width: 0px 5px 8px 5px;
+        }
+        & > button {
+          color: #fff;
+          transition: all 0.4s ease-in-out;
           display: block;
+          padding: 10px 15px;
+          width: 65px;
+          &:hover {
+            background-color: #6c6c6c;
+            color: map-get($color, hover);
+          }
+        }
+        &.show {
+          visibility: visible;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          opacity: 1;
+          animation: fadein 0.4s ease-in-out forwards;
+          transform-origin: top center;
+          @keyframes fadein {
+            0% {
+              transform: scaleY(0);
+            }
+            80% {
+              transform: scaleY(1.1);
+            }
+            100% {
+              transform: scaleY(1);
+            }
+          }
         }
       }
     }
@@ -185,7 +322,4 @@ export default {
     display: block;
   }
 }
-// .el-dropdown-menu {
-//   position: fixed !important;
-// }
 </style>

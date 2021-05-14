@@ -1,0 +1,47 @@
+// dropmenu
+.el-dropdown-link {
+  cursor: pointer;
+}
+
+.el-dropdown-menu {
+  background-color: map-get($color, main);
+}
+
+.el-dropdown-menu__item {
+  color: #fff;
+}
+
+.el-dropdown-menu__item:focus,
+.el-dropdown-menu__item:not(.is-disabled):hover {
+  background-color: map-get($color, three);
+  color: #fff;
+}
+
+.el-popper[x-placement^='bottom'] .popper__arrow {
+  border-bottom-color: map-get($color, main);
+}
+
+.el-popper[x-placement^='bottom'] .popper__arrow::after {
+  border-bottom-color: map-get($color, main);
+}
+
+.el-popper[x-placement^='top'] .popper__arrow::after {
+  border-top-color: map-get($color, main);
+}
+
+// modal
+.el-dialog__headerbtn:focus .el-dialog__close,
+.el-dialog__headerbtn:hover .el-dialog__close {
+  color: map-get($color, hover);
+}
+
+.el-dialog__header,
+.el-dialog__body,
+.el-dialog__footer {
+  color: #fff;
+  background-color: map-get($color, second);
+}
+
+.el-dialog__header span {
+  color: #fff;
+}

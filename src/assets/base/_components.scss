@@ -1,0 +1,119 @@
+// btn
+.main-btn {
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: map-get($color, main);
+  border: none;
+
+  &:hover {
+    background-color: map-get($color, main);
+    opacity: 0.7;
+    color: map-get($color, hover);
+  }
+}
+
+.second-btn {
+  color: black;
+  padding: 12px 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #fff;
+  border: none;
+
+  &:hover {
+    color: #fff;
+    background-color: #b1b1b1;
+  }
+}
+
+// edit input
+.edit-modal>.el-dialog {
+  width: 30% !important;
+
+  @media(max-width: 1200px) {
+    width: 50% !important;
+  }
+
+  @media(max-width: 768px) {
+    width: 80% !important;
+  }
+}
+
+.edit-form {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+
+  &-item {
+    position: relative;
+    margin-bottom: 30px;
+  }
+
+  &-title,
+  &-category,
+  &-price,
+  &-unit {
+    width: 49.99%;
+  }
+
+  &-description,
+  &-content {
+    width: 100%;
+  }
+
+  &-input {
+    border: 0;
+    border-bottom: 1px solid #7e7e7e;
+    outline: none;
+    color: #fff;
+    padding: 7px 5px;
+    background-color: transparent;
+    border-radius: 0px;
+    transition: border-color 0.4s;
+    width: 80%;
+
+    &::placeholder {
+      color: transparent;
+    }
+
+    // 設定原先未輸入文字樣式
+    &:placeholder-shown {
+      ~.edit-form-label {
+        top: 6px;
+        left: 2px;
+        font-size: 14px;
+      }
+    }
+
+    &:focus {
+      padding-bottom: 6px;
+      border-color: map-get($color, hover);
+
+      ~.edit-form-label {
+        position: absolute;
+        font-size: 12px;
+        top: -15px;
+        left: 4px;
+        display: block;
+        transition: 0.4s;
+        color: #fff;
+      }
+    }
+  }
+
+  &-label {
+    // 設定輸入完文字的樣式
+    position: absolute;
+    font-size: 12px;
+    top: -20px;
+    display: block;
+    transition: 0.4s;
+    color: #fff;
+  }
+
+  &-textarea {
+    width: 92%;
+  }
+}
