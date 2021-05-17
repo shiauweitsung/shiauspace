@@ -28,12 +28,12 @@ const routes = [
   {
     path: '/admin',
     component: () => import('../views/Backhome.vue'),
-    meta: { requiresAuth: true },
     children: [
       {
         path: '/',
         name: 'admin',
         component: () => import('../pages/backEnd/Backproduct.vue'),
+        meta: { requiresAuth: true },
       },
     ],
   },

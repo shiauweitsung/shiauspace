@@ -103,6 +103,18 @@
     }
   }
 
+  &-image {
+    width: 100%;
+
+    &-file {
+      padding: 0;
+    }
+
+    &>input {
+      width: 92%;
+    }
+  }
+
   &-label {
     // 設定輸入完文字的樣式
     position: absolute;

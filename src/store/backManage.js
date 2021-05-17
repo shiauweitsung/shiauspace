@@ -1,9 +1,12 @@
 import axios from 'axios';
+import { getField, updateField } from 'vuex-map-fields';
 
 export default {
   namespaced: true,
   state: {
     products: [],
+    editProduct: [],
+    isNew: false,
   },
   actions: {
     getProducts(context) {
@@ -21,13 +24,29 @@ export default {
     },
   },
   mutations: {
+    updateField,
     PRODUCTS(state, payload) {
       state.products = payload;
     },
+    UPDATE_MODAL(state, payload) {
+      if (payload.isNew) {
+        state.editProduct = {};
+      } else {
+        const arr = JSON.parse(JSON.stringify(payload.item));
+        state.editProduct = arr;
+      }
+    },
+    updateEditProduct(state, field) {
+      updateField(state.editProduct, field);
+    },
   },
   getters: {
+    getField,
     products(state) {
       return state.products;
+    },
+    getEditProduct(state) {
+      return getField(state.editProduct);
     },
   },
 };

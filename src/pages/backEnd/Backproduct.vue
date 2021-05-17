@@ -28,13 +28,13 @@
             @click="editShow($event)"
           />
           <div class="back-wrap-products-items-edit-list">
-            <button>修改</button>
+            <button @click="openModal(item, false)">修改</button>
             <button>刪除</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="back-products-add" @click="dialogVisible = true">
+    <div class="back-products-add" @click="openModal({}, true)">
       <svg
         height="20px"
         viewBox="0 0 448 448"
@@ -65,6 +65,7 @@
               class="edit-form-input"
               id="title"
               placeholder="標題"
+              v-model="title"
             />
             <label for="title" class="edit-form-label">標題</label>
           </div>
@@ -74,6 +75,7 @@
               class="edit-form-input"
               id="category"
               placeholder="分類"
+              v-model="category"
             />
             <label for="category" class="edit-form-label">分類</label>
           </div>
@@ -83,6 +85,7 @@
               class="edit-form-input"
               id="price"
               placeholder="贊助最低金額"
+              v-model="price"
             />
             <label for="price" class="edit-form-label">贊助最低金額</label>
           </div>
@@ -92,6 +95,7 @@
               class="edit-form-input"
               id="unit"
               placeholder="單位"
+              v-model="unit"
             />
             <label for="unit" class="edit-form-label">單位</label>
           </div>
@@ -102,6 +106,7 @@
               rows="5"
               class="edit-form-textarea"
               id="description"
+              v-model="description"
             >
             </textarea>
             <label for="description" class="edit-form-label">介紹</label>
@@ -113,8 +118,23 @@
               cols="30"
               rows="5"
               class="edit-form-textarea"
+              v-model="content"
             ></textarea>
             <label for="content" class="edit-form-label">內容</label>
+          </div>
+          <div class="edit-form-image edit-form-item">
+            <label for="image">上傳圖片</label>
+            <input type="file" class="edit-form-image-file" />
+          </div>
+          <div class="edit-form-image edit-form-item">
+            <input
+              type="text"
+              class="edit-form-input"
+              id="image-url"
+              placeholder="分類"
+              v-model="imgUrl"
+            />
+            <label for="image-url" class="edit-form-label">網址</label>
           </div>
         </div>
       </span>
@@ -134,6 +154,12 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import { createHelpers } from 'vuex-map-fields';
+
+const { mapFields } = createHelpers({
+  getterType: 'backManage/getEditProduct',
+  mutationType: 'backManage/updateEditProduct',
+});
 
 export default {
   data() {
@@ -163,6 +189,10 @@ export default {
         e.target.nextElementSibling.classList.toggle('show');
       }
     },
+    openModal(item, isNew) {
+      this.dialogVisible = true;
+      this.$store.commit('backManage/UPDATE_MODAL', { item, isNew });
+    },
   },
   mounted() {
     window.onclick = function (e) {
@@ -176,6 +206,7 @@ export default {
   },
   computed: {
     ...mapGetters('backManage', ['products']),
+    ...mapFields(['title', 'category', 'price', 'unit', 'description', 'content', 'imgUrl']),
   },
   created() {
     this.getProducts();
@@ -223,6 +254,7 @@ export default {
       }
       & > img {
         width: 100%;
+        height: 200px;
       }
       &-info {
         padding: 10px;
@@ -241,7 +273,7 @@ export default {
       position: absolute;
       cursor: pointer;
       right: 25px;
-      top: 10px;
+      top: 210px;
 
       & > img {
         position: absolute;

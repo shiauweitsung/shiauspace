@@ -31,6 +31,12 @@
         >登錄</el-button
       >
     </el-form>
+    <button class="main-btn" id="copy-account" @click="copy('shiau@gmail.com')">
+      複製帳號
+    </button>
+    <button class="main-btn" id="copy-pwd" @click="copy('shiau123')">
+      複製密碼
+    </button>
   </div>
 </template>
 <script>
@@ -90,6 +96,17 @@ export default {
           }
         }
       }
+    },
+    copy(e) {
+      const txt = document.createElement('textarea');
+      console.log(e);
+      txt.value = e;
+      txt.style.position = 'fixed';
+      txt.style.top = 0;
+      txt.style.clip = 'rect(0,0,0,0)';
+      document.body.appendChild(txt);
+      txt.select();
+      document.execCommand('copy');
     },
     clearCookie() {
       this.setCookie('', '', false, -1);
