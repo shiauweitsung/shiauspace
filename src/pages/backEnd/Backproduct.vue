@@ -8,7 +8,11 @@
         :key="i"
       >
         <div class="back-wrap-products-items-list">
-          <img :src="item.image" alt="" :title="item.title" />
+          <img
+            src="~@/assets/images/back/spacecloth.jpg"
+            alt=""
+            :title="item.title"
+          />
           <div class="back-wrap-products-items-list-info">
             <h4>{{ item.title }}</h4>
             <p>分類: {{ item.category }}</p>
