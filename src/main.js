@@ -5,15 +5,33 @@ import 'element-ui/lib/theme-chalk/base.css';
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+import gsap from 'gsap';
+import scrollTrigger from 'gsap/ScrollTrigger';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+import loads from './components/Loading.vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
 
+gsap.registerPlugin(scrollTrigger);
 Vue.use(ElementUI);
+Vue.use(Loading);
+Vue.component('load', Loading);
+Vue.component('loads', loads);
+Vue.use(gsap);
 Vue.component(CollapseTransition.name, CollapseTransition);
 Vue.use(VueAxios, axios);
 
 Vue.config.productionTip = false;
+
+// 全域註冊gsap
+Vue.mixin({
+  created() {
+    this.gsap = gsap;
+    this.scrollTrigger = scrollTrigger;
+  },
+});
 
 new Vue({
   router,

@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import axios from 'axios';
 import VueRouter from 'vue-router';
-import Home from '../views/Home.vue';
 
 Vue.use(VueRouter);
 
@@ -12,18 +11,25 @@ const routes = [
   },
   {
     path: '/',
-    name: 'Home',
-    component: Home,
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: () => import('../views/Login.vue'),
+    name: 'Index',
+    component: () => import('../views/Index.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Home',
+        component: () => import('../views/Home.vue'),
+      },
+      {
+        path: 'about',
+        name: 'About',
+        component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+      },
+      {
+        path: '/login',
+        name: 'Login',
+        component: () => import('../views/Login.vue'),
+      },
+    ],
   },
   {
     path: '/admin',
@@ -33,6 +39,18 @@ const routes = [
         path: '/',
         name: 'admin',
         component: () => import('../pages/backEnd/Backproduct.vue'),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: 'order',
+        name: 'backOrder',
+        component: () => import('../pages/backEnd/BackOrder.vue'),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: 'coupon',
+        name: 'backCoupon',
+        component: () => import('../pages/backEnd/BackCoupon.vue'),
         meta: { requiresAuth: true },
       },
     ],

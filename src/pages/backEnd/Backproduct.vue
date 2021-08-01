@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>贊助項目123</h3>
+    <h3>贊助項目</h3>
     <div class="back-wrap-products">
       <div
         class="back-wrap-products-items"
@@ -8,11 +8,7 @@
         :key="i"
       >
         <div class="back-wrap-products-items-list">
-          <img
-            src="~@/assets/images/back/spacecloth.jpg"
-            alt=""
-            :title="item.title"
-          />
+          <img :src="item.image" alt="" :title="item.title" />
           <div class="back-wrap-products-items-list-info">
             <h4>{{ item.title }}</h4>
             <p>分類: {{ item.category }}</p>
@@ -29,7 +25,7 @@
           />
           <div class="back-wrap-products-items-edit-list">
             <button @click="openModal(item, false)">修改</button>
-            <button>刪除</button>
+            <button @click="delModal(item)">刪除</button>
           </div>
         </div>
       </div>
@@ -50,7 +46,7 @@
         />
       </svg>
     </div>
-    <!-- modal -->
+    <!-- editmodal -->
     <el-dialog
       title="提示"
       :visible.sync="dialogVisible"
@@ -59,83 +55,91 @@
     >
       <span>
         <div class="edit-form">
-          <div class="edit-form-title edit-form-item">
-            <input
-              type="text"
-              class="edit-form-input"
-              id="title"
-              placeholder="標題"
-              v-model="title"
-            />
-            <label for="title" class="edit-form-label">標題</label>
-          </div>
-          <div class="edit-form-category edit-form-item">
-            <input
-              type="text"
-              class="edit-form-input"
-              id="category"
-              placeholder="分類"
-              v-model="category"
-            />
-            <label for="category" class="edit-form-label">分類</label>
-          </div>
-          <div class="edit-form-price edit-form-item">
-            <input
-              type="number"
-              class="edit-form-input"
-              id="price"
-              placeholder="贊助最低金額"
-              v-model="price"
-            />
-            <label for="price" class="edit-form-label">贊助最低金額</label>
-          </div>
-          <div class="edit-form-unit edit-form-item">
-            <input
-              type="text"
-              class="edit-form-input"
-              id="unit"
-              placeholder="單位"
-              v-model="unit"
-            />
-            <label for="unit" class="edit-form-label">單位</label>
-          </div>
-          <div class="edit-form-description edit-form-item">
-            <textarea
-              name=""
-              cols="30"
-              rows="5"
-              class="edit-form-textarea"
-              id="description"
-              v-model="description"
-            >
-            </textarea>
-            <label for="description" class="edit-form-label">介紹</label>
-          </div>
-          <div class="edit-form-content edit-form-item">
-            <textarea
-              name="content"
-              id=""
-              cols="30"
-              rows="5"
-              class="edit-form-textarea"
-              v-model="content"
-            ></textarea>
-            <label for="content" class="edit-form-label">內容</label>
-          </div>
-          <div class="edit-form-image edit-form-item">
-            <label for="image">上傳圖片</label>
-            <input type="file" class="edit-form-image-file" />
-          </div>
-          <div class="edit-form-image edit-form-item">
-            <input
-              type="text"
-              class="edit-form-input"
-              id="image-url"
-              placeholder="分類"
-              v-model="imgUrl"
-            />
-            <label for="image-url" class="edit-form-label">網址</label>
-          </div>
+          <form action="">
+            <div class="edit-form-title edit-form-item">
+              <input
+                type="text"
+                class="edit-form-input"
+                id="title"
+                placeholder="標題"
+                v-model="title"
+              />
+              <label for="title" class="edit-form-label">標題</label>
+            </div>
+            <div class="edit-form-category edit-form-item">
+              <input
+                type="text"
+                class="edit-form-input"
+                id="category"
+                placeholder="分類"
+                v-model="category"
+              />
+              <label for="category" class="edit-form-label">分類</label>
+            </div>
+            <div class="edit-form-price edit-form-item">
+              <input
+                type="number"
+                class="edit-form-input"
+                id="price"
+                placeholder="贊助最低金額"
+                v-model="price"
+              />
+              <label for="price" class="edit-form-label">贊助最低金額</label>
+            </div>
+            <div class="edit-form-unit edit-form-item">
+              <input
+                type="text"
+                class="edit-form-input"
+                id="unit"
+                placeholder="單位"
+                v-model="unit"
+              />
+              <label for="unit" class="edit-form-label">單位</label>
+            </div>
+            <div class="edit-form-description edit-form-item">
+              <textarea
+                name=""
+                cols="30"
+                rows="5"
+                class="edit-form-textarea"
+                id="description"
+                v-model="description"
+              >
+              </textarea>
+              <label for="description" class="edit-form-label">介紹</label>
+            </div>
+            <div class="edit-form-content edit-form-item">
+              <textarea
+                name="content"
+                id=""
+                cols="30"
+                rows="5"
+                class="edit-form-textarea"
+                v-model="content"
+              ></textarea>
+              <label for="content" class="edit-form-label">內容</label>
+            </div>
+            <div class="edit-form-image edit-form-item">
+              <label for="image">上傳圖片</label>
+              <input
+                type="file"
+                class="edit-form-image-file"
+                @change="uploadImg()"
+                ref="uploadimg"
+              />
+              <img :src="image" alt="" style="width: 100%" />
+            </div>
+            <div class="edit-form-image edit-form-item">
+              <input
+                type="text"
+                class="edit-form-input"
+                id="image-url"
+                placeholder="網址"
+                v-model="image"
+              />
+              <label for="image-url" class="edit-form-label">網址</label>
+            </div>
+          </form>
         </div>
       </span>
       <span slot="footer" class="dialog-footer">
@@ -145,11 +149,21 @@
         <el-button
           type="primary"
           class="main-btn"
-          @click="dialogVisible = false"
+          @click="updateProduct(editProduct, isNew)"
           >確 定</el-button
         >
       </span>
     </el-dialog>
+    <el-dialog title="刪除" :visible.sync="deldialogVisible" width="30%">
+      <span>是否確定刪除</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="deldialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="delProduct(editProduct)"
+          >確 定</el-button
+        >
+      </span>
+    </el-dialog>
+    <loads />
   </div>
 </template>
 <script>
@@ -165,6 +179,8 @@ export default {
   data() {
     return {
       dialogVisible: false,
+      deldialogVisible: false,
+      img: '',
     };
   },
   methods: {
@@ -193,6 +209,37 @@ export default {
       this.dialogVisible = true;
       this.$store.commit('backManage/UPDATE_MODAL', { item, isNew });
     },
+    updateProduct(item, isNew) {
+      this.dialogVisible = false;
+      this.$store.dispatch('backManage/updateProduct', { item, isNew });
+    },
+    delModal(item) {
+      this.deldialogVisible = true;
+      this.$store.commit('backManage/DEL_MODAL', item);
+    },
+    delProduct(item) {
+      this.deldialogVisible = false;
+      this.$store.dispatch('backManage/delProduct', item);
+    },
+    uploadImg() {
+      // 需要補上上傳一次後，如果再次點擊 取消時事件
+      const file = this.$refs.uploadimg.files[0];
+      const vm = this;
+      const formData = new FormData();
+      formData.append('file-to-upload', file);
+      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/upload`;
+      this.$store.commit('UPDATE_LOADING', true);
+      this.$http.post(url, formData, {
+        header: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }).then((res) => {
+        if (res.data.success) {
+          vm.$store.commit('backManage/UPDATE_FILE', res.data.imageUrl);
+        }
+        vm.$store.commit('UPDATE_LOADING', false);
+      });
+    },
   },
   mounted() {
     window.onclick = function (e) {
@@ -205,8 +252,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('backManage', ['products']),
-    ...mapFields(['title', 'category', 'price', 'unit', 'description', 'content', 'imgUrl']),
+    ...mapGetters('backManage', ['products', 'editProduct', 'isNew']),
+    ...mapFields(['title', 'category', 'price', 'unit', 'description', 'content', 'image', 'imgUrl']),
   },
   created() {
     this.getProducts();
@@ -219,16 +266,16 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: start;
-  padding: 20px 10px;
+  padding: 20px;
   color: black;
   position: relative;
   &-items {
-    max-width: 33.33%;
-    flex-basis: 33.33%;
+    max-width: 24.99%;
+    flex-basis: 24.99%;
     margin-bottom: 20px;
     position: relative;
 
-    @media (max-width: 1200px) {
+    @media (max-width: 1000px) {
       max-width: 49.99%;
       flex-basis: 49.99%;
     }
@@ -254,7 +301,6 @@ export default {
       }
       & > img {
         width: 100%;
-        height: 200px;
       }
       &-info {
         padding: 10px;
@@ -290,6 +336,7 @@ export default {
         padding: 5px 0px;
         border-radius: 6px;
         display: none;
+        z-index: 999;
         &::after {
           content: '';
           position: absolute;

@@ -101,6 +101,7 @@ body {
   position: relative;
   font-family: 'Noto Serif TC', serif;
   color: #fff;
+  overflow-x: hidden;
 }
 
 h1,
@@ -198,7 +199,9 @@ input[type='number'] {
 textarea {
   resize: none;
 }
-
+.body-active{
+  overflow: hidden;
+}
 .back-wrap {
   margin-top: 49px;
   margin-left: 250px;

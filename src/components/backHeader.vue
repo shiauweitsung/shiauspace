@@ -162,24 +162,24 @@
     </div>
     <div class="back-sidebar">
       <div class="back-sidebar-logo">
-        <router-link to=""><h1>SpaceX</h1></router-link>
+        <router-link to="/admin"><h1>SpaceX</h1></router-link>
         <i class="el-icon-close close-menu" @click="mobHide"></i>
       </div>
       <ul>
         <li>
-          <router-link to=""
+          <router-link to="/admin" class="back-sidebar-link"
             ><span><img src="~@/assets/images/icon/rocket.png" alt="" /></span>
             <p>贊助項目</p>
           </router-link>
         </li>
         <li>
-          <router-link to=""
+          <router-link to="/admin/order" class="back-sidebar-link"
             ><span><img src="~@/assets/images/icon/space.png" alt="" /></span
             >贊助訂單</router-link
           >
         </li>
         <li>
-          <router-link to=""
+          <router-link to="/admin/coupon" class="back-sidebar-link"
             ><span
               ><img
                 src="~@/assets/images/icon/coupon-removebg-preview.png"
@@ -351,6 +351,12 @@ export default {
           display: block;
         }
       }
+    }
+  }
+  &-link {
+    &.router-link-exact-active {
+      color: map-get($color, hover);
+      font-weight: 600;
     }
   }
 }
