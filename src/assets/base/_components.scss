@@ -28,16 +28,19 @@
   }
 }
 
-.main-link{
+.main-link {
   color: #fff;
   transition: all .4s;
-  &:hover{
-    color:map-get($color,hover );
+
+  &:hover {
+    color: map-get($color, hover);
   }
 }
-.router-link-exact-active{
-  color:map-get($color,hover );
+
+.router-link-exact-active {
+  color: map-get($color, hover);
 }
+
 // edit input
 .edit-modal>.el-dialog {
   width: 40% !important;
@@ -52,13 +55,14 @@
 }
 
 .edit-form {
-  
-  &>form{
+
+  &>form {
     position: relative;
     display: flex;
     flex-wrap: wrap;
     width: 100%;
   }
+
   &-item {
     position: relative;
     margin-bottom: 30px;
@@ -80,7 +84,7 @@
     border: 0;
     border-bottom: 1px solid #7e7e7e;
     outline: none;
-    color: map-get($color, hover );
+    color: map-get($color, hover);
     padding: 7px 5px;
     background-color: transparent;
     border-radius: 0px;
@@ -117,7 +121,7 @@
 
   &-image {
     width: 100%;
-    
+
     &-file {
       padding: 0;
       margin-bottom: 15px;

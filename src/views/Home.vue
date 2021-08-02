@@ -15,7 +15,29 @@
         </video>
         <h1>123456</h1>
       </div>
-      <div class="home-wrap-cont"></div>
+      <div class="home-wrap-cont">
+        <div class="home-wrap-cont-item">
+          <div class="item-img">01</div>
+          <div class="item-cont">
+            <h5>01</h5>
+            <p>space</p>
+            <p>spaceXXXX</p>
+          </div>
+          <div class="item-cont">
+            <p>1324564</p>
+            <p>124</p>
+          </div>
+          <div class="item-img">02</div>
+        </div>
+        <div class="home-wrap-cont-item">
+          <h1>123456</h1>
+          <h1>123456</h1>
+          <h1>123456</h1>
+          <h1>123456</h1>
+          <h1>123456</h1>
+          <h1>123456</h1>
+        </div>
+      </div>
       <div class="bg-cont">
         <div class="testbg testbg1">1</div>
         <div class="testbg testbg2">2</div>
@@ -67,7 +89,20 @@ export default {
       pin: true,
       scrub: true,
       anticipatePin: 1,
-      markers: true,
+      // markers: true,
+    });
+    const t3 = this.gsap.timeline();
+    const img = document.querySelectorAll('.item-img');
+    img.forEach((item) => {
+      t3.from(item, { xPercent: '-1000', duration: 2, delay: 2 });
+    });
+    t3.from('.item-cont', { xPercent: '-1000', duration: 2 });
+    this.scrollTrigger.create({
+      animation: t3,
+      trigger: '.home-wrap-cont-item',
+      start: 'top bottom',
+      id: 'item',
+      // markers: true,
     });
   },
   beforeDestroy() {
@@ -76,6 +111,7 @@ export default {
 };
 </script>
 <style lang="scss">
+@import '~@/assets/all.scss';
 .loading-index {
   position: fixed;
   top: 0px;
@@ -132,6 +168,51 @@ export default {
   &-banner {
     position: relative;
     padding-bottom: 57.25%;
+  }
+  &-cont {
+    &-item {
+      position: relative;
+      display: flex;
+      background-color: #e0e0e0;
+      .item-cont {
+        width: 50%;
+        padding: 30px 0px;
+        & > h5 {
+          color: map-get($color, second);
+          margin: 3rem;
+          font-size: 4rem;
+          text-align: center;
+        }
+        & > p {
+          margin-left: 3rem;
+          font-size: 2rem;
+        }
+      }
+      .item-img {
+        position: absolute;
+        z-index: 9;
+      }
+      .item-img:nth-child(1) {
+        top: -50px;
+        left: 20%;
+        transform: translateX(-80%);
+        width: 100px;
+        height: 100px;
+        background-color: red;
+      }
+      .item-img:nth-child(2n) {
+        bottom: -50px;
+        right: 20%;
+        transform: translateX(-80%);
+        width: 100px;
+        height: 100px;
+        background-color: blue;
+      }
+    }
+    &-item:nth-child(2) {
+      background-color: black;
+      flex-direction: column;
+    }
   }
 }
 #home-video {
