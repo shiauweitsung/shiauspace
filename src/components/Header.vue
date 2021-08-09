@@ -12,6 +12,9 @@
             <routerLink class="main-link" to="/about">關於我們</routerLink>
           </li>
           <li>
+            <routerLink class="main-link" to="/news">太空事件</routerLink>
+          </li>
+          <li>
             <routerLink class="main-link" to="/product">贊助計畫</routerLink>
           </li>
           <li>
@@ -72,6 +75,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.header.active {
+  background-color: rgba(88, 88, 88, 0.8);
+}
 .header {
   position: fixed;
   top: 0px;
@@ -79,6 +85,8 @@ export default {
   transform: translateX(-50%);
   z-index: 99999;
   width: 100%;
+  z-index: 99999999;
+  transition: all 0.5s;
   // opacity: 0;
   &-wrap {
     max-width: 1440px;
@@ -132,6 +140,12 @@ export default {
           margin-right: 0px;
           margin-bottom: 15px;
           font-size: 1.1rem;
+        }
+        & > a {
+          @media (max-width: 768px) {
+            padding-bottom: 5px;
+            border-bottom: 1px solid #252525;
+          }
         }
       }
     }

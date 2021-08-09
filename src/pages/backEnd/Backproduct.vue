@@ -319,7 +319,7 @@ export default {
       position: absolute;
       cursor: pointer;
       right: 25px;
-      top: 210px;
+      bottom: 40px;
 
       & > img {
         position: absolute;

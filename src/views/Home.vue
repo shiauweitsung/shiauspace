@@ -17,32 +17,47 @@
       </div>
       <div class="home-wrap-cont">
         <div class="home-wrap-cont-item">
-          <div class="item-img">01</div>
+          <div class="item-img">
+            <model-viewer
+              src="~@/assets/images/frontEnd/test.glb"
+            ></model-viewer>
+          </div>
           <div class="item-cont">
-            <h5>01</h5>
+            <h5>地球</h5>
             <p>space</p>
             <p>spaceXXXX</p>
           </div>
           <div class="item-cont">
+            <h5>水星</h5>
             <p>1324564</p>
             <p>124</p>
           </div>
           <div class="item-img">02</div>
         </div>
         <div class="home-wrap-cont-item">
-          <h1>123456</h1>
-          <h1>123456</h1>
+          <h1>木星</h1>
+          <h1>土星介紹</h1>
           <h1>123456</h1>
           <h1>123456</h1>
           <h1>123456</h1>
           <h1>123456</h1>
         </div>
-      </div>
-      <div class="bg-cont">
-        <div class="testbg testbg1">1</div>
-        <div class="testbg testbg2">2</div>
-        <div class="testbg testbg3">3</div>
-        <div class="testbg testbg4">4</div>
+        <div class="home-wrap-cont-item bg3">
+          <div>
+            <h4>登月計畫</h4>
+            <p>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Optio
+              commodi delectus suscipit reiciendis a laudantium corporis quaerat
+              id pariatur maiores?
+            </p>
+            <h4>登月準備</h4>
+            <p>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Optio
+              commodi delectus suscipit reiciendis a laudantium corporis quaerat
+              id pariatur maiores?
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -76,25 +91,10 @@ export default {
     }, {
       opacity: 1,
     });
-    const t2 = this.gsap.timeline();
-    t2.from('.testbg2', { xPercent: '-100', duration: 2 });
-    t2.from('.testbg3', { yPercent: '-100', duration: 2 });
-    t2.from('.testbg4', { xPercent: '-100', duration: 2 });
-    this.scrollTrigger.create({
-      animation: t2,
-      trigger: '.bg-cont',
-      start: 'top top',
-      end: '+=3000',
-      id: 'bgID',
-      pin: true,
-      scrub: true,
-      anticipatePin: 1,
-      // markers: true,
-    });
     const t3 = this.gsap.timeline();
     const img = document.querySelectorAll('.item-img');
     img.forEach((item) => {
-      t3.from(item, { xPercent: '-1000', duration: 2, delay: 2 });
+      t3.from(item, { x: '-10000%', duration: 2, delay: 2 });
     });
     t3.from('.item-cont', { xPercent: '-1000', duration: 2 });
     this.scrollTrigger.create({
@@ -104,9 +104,20 @@ export default {
       id: 'item',
       // markers: true,
     });
+    const t4 = this.gsap.timeline();
+    t4.from('.bg3 div', { y: '-1000', duration: 2 });
+    this.scrollTrigger.create({
+      animation: t4,
+      trigger: '.bg3',
+      toggleActions: 'play none none none',
+      start: 'top bottom',
+      end: 'bottom center',
+      id: 'bg3',
+      markers: true,
+    });
   },
   beforeDestroy() {
-    this.scrollTrigger.getById('bgID').kill();
+    this.scrollTrigger.getById('bg3').kill();
   },
 };
 </script>
@@ -239,29 +250,33 @@ export default {
   }
 }
 
-.testbg {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0px;
-  left: 0px;
-}
-.testbg1 {
-  background-color: red;
-}
-.testbg2 {
-  background-color: blue;
-}
-.testbg3 {
-  background-color: green;
-}
-.testbg4 {
-  background-color: greenyellow;
-}
-.bg-cont {
-  height: 100vh;
-  width: 100vw;
-  position: relative;
+.bg3 {
+  background: url(~@/assets/images/frontEnd/bg3.jpg);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 0px;
   overflow: hidden;
+  color: map-get($color, main);
+  & > div {
+    width: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 15px 30px 30px 30px;
+    & > h4 {
+      font-size: 2rem;
+      display: inline-block;
+      border-bottom: 2px solid black;
+      padding-bottom: 10px;
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+    & > p {
+      font-size: 1.2rem;
+    }
+  }
 }
 </style>
