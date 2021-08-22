@@ -17,11 +17,7 @@
       </div>
       <div class="home-wrap-cont">
         <div class="home-wrap-cont-item">
-          <div class="item-img">
-            <model-viewer
-              src="~@/assets/images/frontEnd/test.glb"
-            ></model-viewer>
-          </div>
+          <div class="item-img">1</div>
           <div class="item-cont">
             <h5>地球</h5>
             <p>space</p>

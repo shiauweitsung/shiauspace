@@ -18,6 +18,9 @@
             <routerLink class="main-link" to="/product">贊助計畫</routerLink>
           </li>
           <li>
+            <routerLink class="main-link" to="/product">模擬登月</routerLink>
+          </li>
+          <li>
             <routerLink class="main-link" to="/knowloge">認識SPACE</routerLink>
           </li>
           <li>
