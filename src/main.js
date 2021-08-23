@@ -7,6 +7,7 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 import gsap from 'gsap';
 import scrollTrigger from 'gsap/ScrollTrigger';
+import * as THREE from 'three';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import loads from './components/Loading.vue';
@@ -22,6 +23,7 @@ Vue.component('loads', loads);
 Vue.use(gsap);
 Vue.component(CollapseTransition.name, CollapseTransition);
 Vue.use(VueAxios, axios);
+Vue.use(THREE);
 
 Vue.config.productionTip = false;
 
@@ -30,6 +32,7 @@ Vue.mixin({
   created() {
     this.gsap = gsap;
     this.scrollTrigger = scrollTrigger;
+    this.THREE = THREE;
   },
 });
 

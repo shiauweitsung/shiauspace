@@ -17,26 +17,44 @@
       </div>
       <div class="home-wrap-cont">
         <div class="home-wrap-cont-item">
-          <div class="item-img">1</div>
           <div class="item-cont">
-            <h5>地球</h5>
-            <p>space</p>
-            <p>spaceXXXX</p>
+            <div>
+              <canvas id="earth"></canvas>
+            </div>
+            <div class="item-cont-earth">
+              <h5>地球</h5>
+              <p>
+                地球誕生於約45.4億年前，42億年前開始形成海洋，並在35億年前的海洋中出現生命，之後逐步涉足地表和大氣，並分化為好氧生物和厭氧生物
+              </p>
+            </div>
           </div>
           <div class="item-cont">
-            <h5>水星</h5>
-            <p>1324564</p>
-            <p>124</p>
+            <div>
+              <canvas id="Material"></canvas>
+            </div>
+            <div class="item-cont-Material">
+              <h5>水星</h5>
+              <p>
+                水星，中國古稱辰星；到西漢時期，《史記‧天官書》作者天文學家司馬遷從實際觀測發現辰星呈灰色，與「五行」學說聯繫在一起，以黑色配水星，因此正式把它命名為水星。
+              </p>
+            </div>
           </div>
-          <div class="item-img">02</div>
         </div>
         <div class="home-wrap-cont-item">
-          <h1>木星</h1>
-          <h1>土星介紹</h1>
-          <h1>123456</h1>
-          <h1>123456</h1>
-          <h1>123456</h1>
-          <h1>123456</h1>
+          <div class="planet-list">
+            <label>
+              <p>木星</p>
+            </label>
+            <label>
+              <p>金星</p>
+            </label>
+            <label>
+              <p>冥王星</p>
+            </label>
+          </div>
+          <div class="planet-cont">
+            <p>切換內容顯示</p>
+          </div>
         </div>
         <div class="home-wrap-cont-item bg3">
           <div>
@@ -59,6 +77,8 @@
   </div>
 </template>
 <script>
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+
 export default {
   mounted() {
     const t1 = this.gsap.timeline();
@@ -69,7 +89,6 @@ export default {
       num: 100,
       onUpdate() {
         const percent = document.querySelector('.loading-bar-percent');
-        // console.log(percent);
         percent.innerHTML = percentData.num.toFixed(0);
       },
     });
@@ -88,11 +107,10 @@ export default {
       opacity: 1,
     });
     const t3 = this.gsap.timeline();
-    const img = document.querySelectorAll('.item-img');
-    img.forEach((item) => {
-      t3.from(item, { x: '-10000%', duration: 2, delay: 2 });
-    });
-    t3.from('.item-cont', { xPercent: '-1000', duration: 2 });
+    t3.to('#earth', { opacity: 1, duration: 2 });
+    t3.to('#Material', { opacity: 1, duration: 2 }, '-=1.5');
+    t3.from('.item-cont-earth', { yPercent: '-1000', duration: 2 });
+    t3.from('.item-cont-Material', { yPercent: '-1000', duration: 2 }, '-=1.5');
     this.scrollTrigger.create({
       animation: t3,
       trigger: '.home-wrap-cont-item',
@@ -101,7 +119,7 @@ export default {
       // markers: true,
     });
     const t4 = this.gsap.timeline();
-    t4.from('.bg3 div', { y: '-1000', duration: 2 });
+    t4.from('.bg3 div', { y: '-1000', duration: 4, ease: 'power4.out' });
     this.scrollTrigger.create({
       animation: t4,
       trigger: '.bg3',
@@ -111,6 +129,82 @@ export default {
       id: 'bg3',
       markers: true,
     });
+    // 地球
+    const earth = document.getElementById('earth');
+    const scene = new this.THREE.Scene();
+    const renderer = new this.THREE.WebGLRenderer({
+      canvas: earth,
+      alpha: true,
+    });
+    // window.innerWidth, window.innerHeight
+    renderer.setSize(150, 150);
+    const camera = new this.THREE.PerspectiveCamera(
+      45,
+      1,
+      1,
+      2000,
+    );
+    camera.position.z = 25;
+    camera.lookAt(0, 0, 0);
+    const light = new this.THREE.AmbientLight('white');
+    scene.add(light);
+    const texture = new this.THREE.TextureLoader().load('/3d/earth.jpeg');
+    const geometry = new this.THREE.SphereGeometry(8, 50, 50);
+    const material = new this.THREE.MeshLambertMaterial({
+      map: texture,
+    });
+    const mesh = new this.THREE.Mesh(geometry, material);
+    scene.add(mesh);
+    const control = new OrbitControls(camera, renderer.domElement);
+    control.target = new this.THREE.Vector3(0, 0, 0);
+    control.autoRotate = false;
+    control.enablePan = false;
+    control.enableZoom = false;
+    function animate() {
+      requestAnimationFrame(animate);
+      mesh.rotation.y += 0.002;
+      control.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+    // 水星
+    const Material = document.getElementById('Material');
+    const scene2 = new this.THREE.Scene();
+    const renderer2 = new this.THREE.WebGLRenderer({
+      canvas: Material,
+      alpha: true,
+    });
+    // window.innerWidth, window.innerHeight
+    renderer2.setSize(150, 150);
+    const camera2 = new this.THREE.PerspectiveCamera(
+      45,
+      1,
+      1,
+      2000,
+    );
+    camera2.position.z = 25;
+    camera2.lookAt(0, 0, 0);
+    const light2 = new this.THREE.AmbientLight('white');
+    scene2.add(light2);
+    const texture2 = new this.THREE.TextureLoader().load('/3d/Material.jpeg');
+    const geometry2 = new this.THREE.SphereGeometry(8, 50, 50);
+    const material2 = new this.THREE.MeshLambertMaterial({
+      map: texture2,
+    });
+    const mesh2 = new this.THREE.Mesh(geometry2, material2);
+    scene2.add(mesh2);
+    const control2 = new OrbitControls(camera2, renderer2.domElement);
+    control2.target = new this.THREE.Vector3(0, 0, 0);
+    control2.autoRotate = false;
+    control2.enablePan = false;
+    control2.enableZoom = false;
+    function animate2() {
+      requestAnimationFrame(animate2);
+      mesh2.rotation.y += 0.003;
+      control2.update();
+      renderer2.render(scene2, camera2);
+    }
+    animate2();
   },
   beforeDestroy() {
     this.scrollTrigger.getById('bg3').kill();
@@ -181,39 +275,75 @@ export default {
       position: relative;
       display: flex;
       background-color: #e0e0e0;
+      background-image: url(~@/assets/images/frontEnd/bg4.jpg);
+      background-size: contain;
+      background-position: center;
+      overflow: hidden;
+      @media (max-width: 1000px) {
+        flex-direction: column;
+      }
       .item-cont {
         width: 50%;
         padding: 30px 0px;
-        & > h5 {
-          color: map-get($color, second);
-          margin: 3rem;
-          font-size: 4rem;
+        display: flex;
+        @media (max-width: 1000px) {
+          width: 100%;
+        }
+        @media (max-width: 576px) {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+        & > div {
+          width: 30%;
+          @media (max-width: 1200px) {
+            width: 40%;
+          }
+          @media (max-width: 1000px) {
+            width: 30%;
+          }
+          & > h5 {
+            color: map-get($color, white);
+            margin: 3rem 0;
+            font-size: 2.5rem;
+            text-align: left;
+            @media (max-width: 576px) {
+              margin: 1rem 0;
+              text-align: center;
+            }
+          }
+          & > p {
+            color: map-get($color, white);
+            font-size: 1.1rem;
+            margin-right: 3rem;
+            background-color: rgba(81, 81, 81, 0.5);
+            padding: 20px;
+            border-radius: 8px;
+            @media (max-width: 576px) {
+              margin-right: 0;
+            }
+          }
+        }
+        & > div:nth-child(1) {
           text-align: center;
         }
-        & > p {
-          margin-left: 3rem;
-          font-size: 2rem;
+        & > div:nth-child(2) {
+          width: 70%;
+          @media (max-width: 1200px) {
+            width: 60%;
+          }
+          @media (max-width: 1000px) {
+            width: 70%;
+          }
         }
       }
-      .item-img {
-        position: absolute;
-        z-index: 9;
+      canvas {
       }
-      .item-img:nth-child(1) {
-        top: -50px;
-        left: 20%;
-        transform: translateX(-80%);
-        width: 100px;
-        height: 100px;
-        background-color: red;
+      #earth {
+        opacity: 0;
       }
-      .item-img:nth-child(2n) {
-        bottom: -50px;
-        right: 20%;
-        transform: translateX(-80%);
-        width: 100px;
-        height: 100px;
-        background-color: blue;
+      #Material {
+        opacity: 0;
       }
     }
     &-item:nth-child(2) {
