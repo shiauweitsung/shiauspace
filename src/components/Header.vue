@@ -90,6 +90,7 @@ export default {
   width: 100%;
   z-index: 99999999;
   transition: all 0.5s;
+  overflow-x: hidden;
   // opacity: 0;
   &-wrap {
     max-width: 1440px;
