@@ -18,7 +18,7 @@
         <h1>123456</h1>
       </div>
       <div class="home-wrap-cont">
-        <div class="home-wrap-cont-item">
+        <div class="home-wrap-cont-item planet-bg">
           <div class="item-cont">
             <div>
               <canvas id="earth"></canvas>
@@ -42,7 +42,7 @@
             </div>
           </div>
         </div>
-        <div class="home-wrap-cont-item">
+        <div class="home-wrap-cont-item planet-bg">
           <input
             type="radio"
             name="planet"
@@ -102,6 +102,14 @@
             <p>
               在準備期間，我們團隊做足了數萬次的模擬，進行各種探測。斥資了300億，每人擁有數套備用太空衣以及單獨太空艙火箭，以便發生意外時，可以自救回地球。
             </p>
+          </div>
+        </div>
+        <div class="home-wrap-cont-item rocket-bg">
+          <span class="star star-1"></span>
+          <span class="star star-2"></span>
+          <span class="star star-3"></span>
+          <div class="home-wrap-cont-item-rocket">
+            <h4>專利太空衣</h4>
           </div>
         </div>
         <div class="home-wrap-cont-scroll">
@@ -422,8 +430,6 @@ export default {
     &-item {
       position: relative;
       display: flex;
-      background-color: #e0e0e0;
-      background-image: url(~@/assets/images/frontEnd/bg4.jpg);
       background-size: contain;
       background-position: center;
       overflow: hidden;
@@ -487,6 +493,9 @@ export default {
         opacity: 0;
       }
     }
+    &-item.planet-bg {
+      background-image: url(~@/assets/images/frontEnd/bg4.jpg);
+    }
     &-item:nth-child(1) {
       @media (max-width: 1000px) {
         flex-direction: column;
@@ -540,6 +549,7 @@ export default {
         width: 33.33%;
         padding: 0px 15px;
         text-align: center;
+        cursor: pointer;
         transform: scale(1);
         transition: ease-in-out 0.4s;
         @media (max-width: 1000px) {
@@ -599,6 +609,65 @@ export default {
         }
       }
     }
+    &-item.rocket-bg {
+      position: relative;
+      overflow: hidden;
+      .star {
+        position: absolute;
+        top: -215px;
+        left: 230px;
+        width: 150px;
+        height: 2px;
+        transform-origin: 100% 0;
+        transform: rotate(-45deg);
+        background-image: linear-gradient(
+          to right,
+          #fff,
+          rgba(255, 255, 255, 0)
+        );
+        opacity: 0;
+      }
+      .star::before {
+        content: '';
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        border-radius: 50%;
+        background-color: #fff;
+        box-shadow: 0 0 15px 5px #fff;
+        z-index: 9;
+      }
+      $n: 3;
+      @for $i from 1 through 3 {
+        $l: random(150) + 150;
+        $t: random(215) + 50;
+        $s: random(10) + 2;
+        .star-#{$i} {
+          left: $l + px;
+          top: $t + px;
+          animation: shotting 2s linear infinite;
+          animation-delay: $s + s;
+        }
+      }
+
+      @keyframes shotting {
+        0% {
+          opacity: 1;
+        }
+        80% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: rotate(-45deg) translate3d(-300px, 0, 0);
+        }
+      }
+      .home-wrap-cont-item-rocket {
+        & > h4 {
+          height: 400px;
+        }
+      }
+    }
   }
 }
 #home-video {
@@ -641,6 +710,9 @@ export default {
     width: 50%;
     background-color: rgba(255, 255, 255, 0.5);
     padding: 15px 30px 30px 30px;
+    @media (max-width: 768px) {
+      width: 80%;
+    }
     & > h4 {
       font-size: 2rem;
       display: inline-block;
