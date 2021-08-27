@@ -105,11 +105,34 @@
           </div>
         </div>
         <div class="home-wrap-cont-item rocket-bg">
-          <span class="star star-1"></span>
-          <span class="star star-2"></span>
-          <span class="star star-3"></span>
+          <span
+            class="star"
+            v-for="(item, i) in 30"
+            :key="i"
+            :class="'star-' + item"
+          ></span>
+          <img
+            src="~@/assets/images/frontEnd/astronaut.png"
+            alt=""
+            class="rocket-man rocket-man-1"
+          />
+          <img
+            src="~@/assets/images/frontEnd/astronaut-2.png"
+            alt=""
+            class="rocket-man rocket-man-2"
+          />
           <div class="home-wrap-cont-item-rocket">
             <h4>專利太空衣</h4>
+            <p>
+              太空衣是保護太空人在太空不受低溫，射線等的侵害並提供人類生存所需的氧氣的保護服。
+              <br />
+              <br />
+              Space X
+              的太空衣擁有超凡的技術。提供30年的氧氣、超貼身與輕量化的體驗、處理排泄物更無感、使壓力達到與地球相等，使用專利技術達到100%抗輻射。
+              <br />
+              <br />
+              更重要的:擁有高速低熱的加速器，讓你在宇宙中更敏捷的移動。
+            </p>
           </div>
         </div>
         <div class="home-wrap-cont-scroll">
@@ -126,15 +149,22 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 export default {
   mounted() {
+    const body = document.getElementsByTagName('body')[0];
     const t1 = this.gsap.timeline();
     const percentData = {
       num: 0,
     };
     t1.to(percentData, 2, {
       num: 100,
+      onStart() {
+        body.style.overflow = 'hidden';
+      },
       onUpdate() {
         const percent = document.querySelector('.loading-bar-percent');
         percent.innerHTML = percentData.num.toFixed(0);
+      },
+      onComplete() {
+        body.style['overflow-y'] = 'auto';
       },
     });
     t1.to('.loading-bar-width-before', 2, {
@@ -169,7 +199,11 @@ export default {
       // markers: true,
     });
     const t4 = this.gsap.timeline();
-    t4.from('.bg3 div', { y: '-1000', duration: 4, ease: 'power4.out' });
+    t4.from('.bg3 div', {
+      y: '-1000',
+      duration: 2,
+      ease: 'none',
+    });
     this.scrollTrigger.create({
       animation: t4,
       trigger: '.bg3',
@@ -180,11 +214,49 @@ export default {
       // markers: true,
     });
     const t5 = this.gsap.timeline();
-    t5.from('.scroll-item-1', 2, { xPercent: '-100' })
+    const rocket1 = document.querySelector('.rocket-man-1');
+    const rocket2 = document.querySelector('.rocket-man-2');
+    t5.from(rocket1, {
+      css: {
+        bottom: -100,
+      },
+      duration: 2,
+      onComplete: () => {
+        rocket1.classList.add('active');
+      },
+    });
+    t5.fromTo(rocket2,
+      {
+        x: 200,
+      },
+      {
+        x: -150,
+        rotation: 360,
+        duration: 3,
+        ease: 'back.out(1.7)',
+      }, '-=2');
+    t5.to(rocket2, {
+      x: 0,
+      duration: 1,
+      ease: 'none',
+      onComplete: () => {
+        rocket2.classList.add('active');
+      },
+    });
+    this.scrollTrigger.create({
+      animation: t5,
+      trigger: '.rocket-bg',
+      start: 'top center',
+      end: 'bottom none',
+      id: 'rocket-item',
+      markers: true,
+    });
+    const t6 = this.gsap.timeline();
+    t6.from('.scroll-item-1', 2, { xPercent: '-100' })
       .from('.scroll-item-2', 2, { xPercent: '100' })
       .from('.scroll-item-3', 2, { xPercent: '-100' });
     this.scrollTrigger.create({
-      animation: t5,
+      animation: t6,
       trigger: '.home-wrap-cont-scroll',
       start: 'top top',
       end: '+=3000',
@@ -612,6 +684,37 @@ export default {
     &-item.rocket-bg {
       position: relative;
       overflow: hidden;
+      display: flex;
+      justify-content: center;
+      background: url(~@/assets/images/frontEnd/bg5.jpg);
+      .rocket-man {
+        position: absolute;
+        width: 100px;
+        transform: translate(0px, 0px);
+        // animation: rocketman 2s infinite;
+        // animation-direction: alternate-reverse;
+      }
+      .rocket-man-1 {
+        left: 30px;
+        bottom: 30px;
+      }
+      .rocket-man-2 {
+        top: 30px;
+        right: 30px;
+        animation-delay: 0.5s;
+      }
+      .active {
+        animation: rocketman 2s infinite;
+        animation-direction: alternate-reverse;
+      }
+      @keyframes rocketman {
+        0% {
+          transform: translate(0px, -10px);
+        }
+        100% {
+          transform: translate(0px, 10px);
+        }
+      }
       .star {
         position: absolute;
         top: -215px;
@@ -626,6 +729,7 @@ export default {
           rgba(255, 255, 255, 0)
         );
         opacity: 0;
+        z-index: 1;
       }
       .star::before {
         content: '';
@@ -634,19 +738,20 @@ export default {
         height: 3px;
         border-radius: 50%;
         background-color: #fff;
-        box-shadow: 0 0 15px 5px #fff;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1),
+          0 0 0 4px rgba(255, 255, 255, 0.1), 0 0 0 8px rgba(255, 255, 255, 0.1);
         z-index: 9;
       }
-      $n: 3;
-      @for $i from 1 through 3 {
-        $l: random(150) + 150;
-        $t: random(215) + 50;
-        $s: random(10) + 2;
+      @for $i from 1 through 30 {
+        $l: random(120);
+        $t: random(106) * -1;
+        $s: random(10);
+        $d: random(100);
         .star-#{$i} {
-          left: $l + px;
+          left: $l * 1%;
           top: $t + px;
-          animation: shotting 2s linear infinite;
-          animation-delay: $s + s;
+          animation: shotting $s + s linear infinite;
+          animation-delay: $d + s;
         }
       }
 
@@ -659,12 +764,22 @@ export default {
         }
         100% {
           opacity: 0;
-          transform: rotate(-45deg) translate3d(-300px, 0, 0);
+          transform: rotate(-45deg) translate3d(-1000px, 0, 0);
         }
       }
       .home-wrap-cont-item-rocket {
+        width: 50%;
+        position: relative;
         & > h4 {
-          height: 400px;
+          font-size: 2rem;
+          text-align: center;
+          margin: 30px 0px;
+        }
+        & > p {
+          width: 80%;
+          @include planetbg;
+          margin: 0px auto 30px auto;
+          // padding: 20px 20%;
         }
       }
     }
@@ -714,7 +829,7 @@ export default {
       width: 80%;
     }
     & > h4 {
-      font-size: 2rem;
+      font-size: 1.5rem;
       display: inline-block;
       border-bottom: 2px solid black;
       padding-bottom: 10px;
@@ -722,7 +837,7 @@ export default {
       margin-bottom: 15px;
     }
     & > p {
-      font-size: 1.2rem;
+      font-size: 14px;
     }
   }
 }
