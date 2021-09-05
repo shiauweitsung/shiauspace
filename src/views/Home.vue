@@ -135,6 +135,17 @@
             </p>
           </div>
         </div>
+        <div class="home-wrap-cont-opa">
+          <!-- <h2>132456</h2>
+          <div class="box box1"></div>
+          <div class="box box2"></div>
+          <div class="box box3"></div> -->
+          <img
+            src="~@/assets/images/frontEnd/astronaut-2.png"
+            alt=""
+            class="img-opa"
+          />
+        </div>
         <div class="home-wrap-cont-scroll">
           <div class="home-wrap-cont-scroll-item scroll-item-1"></div>
           <div class="home-wrap-cont-scroll-item scroll-item-2"></div>
@@ -249,22 +260,60 @@ export default {
       start: 'top center',
       end: 'bottom none',
       id: 'rocket-item',
-      markers: true,
+      // markers: true,
     });
     const t6 = this.gsap.timeline();
-    t6.from('.scroll-item-1', 2, { xPercent: '-100' })
+    t6.to('.img-opa', 5, {
+      motionPath: {
+        path: [
+          { x: 100, y: 0 },
+          { x: 100, y: 200 },
+          { x: 200, y: 0 },
+          { x: 400, y: 300 },
+          { x: 600, y: 0 },
+          { x: window.innerWidth, y: 300 }],
+        autoRotate: 26,
+        // alignOrigin: [0.5, 0.5],
+      },
+      // transformOrigin: '50% 50%',
+      // xPercent: -50,
+      // yPercent: -50,
+    });
+    // this.MotionPathHelper.create('.img-opa');
+    // t6.to('.box3', 2, { opacity: 0 });
+    // t6.to('.box2', 2, { opacity: 0 });
+    // t6.to('.box1', 2, { opacity: 0 });
+    // t6.to('.img-opa', 2, { x: 100 });
+    this.scrollTrigger.create({
+      animation: t6,
+      trigger: '.home-wrap-cont-opa',
+      start: 'top center',
+      end: '+=100%',
+      markers: true,
+      id: 'opa',
+      scrub: true,
+      pin: true,
+      onEnterBack: () => {
+        // this.scrollTrigger.getById('opa').refresh();
+        console.log('back');
+      },
+    });
+    const t7 = this.gsap.timeline();
+    t7.from('.scroll-item-1', 2, { xPercent: '-100' })
       .from('.scroll-item-2', 2, { xPercent: '100' })
       .from('.scroll-item-3', 2, { xPercent: '-100' });
     this.scrollTrigger.create({
-      animation: t6,
+      animation: t7,
       trigger: '.home-wrap-cont-scroll',
       start: 'top top',
-      end: '+=3000',
+      end: '+=100%',
       scrub: true,
       pin: true,
       anticipatePin: 1,
+      id: 'scrollbg',
       // markers: true,
     });
+
     // 地球
     const earth = document.getElementById('earth');
     const scene = new this.THREE.Scene();
@@ -782,6 +831,36 @@ export default {
           // padding: 20px 20%;
         }
       }
+    }
+    &-opa {
+      position: relative;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      background-color: #fff;
+      & > img {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      // $divcolor: (rgb(255, 106, 106), rgb(113, 215, 255), rgb(117, 245, 117));
+      // $divi: 0;
+      // & .box {
+      //   position: absolute;
+      //   width: 100px;
+      //   height: 100px;
+      //   background-color: rgb(255, 129, 129);
+      //   left: 50%;
+      //   transform: translateX(-50%);
+      //   opacity: 1;
+      //   z-index: 1;
+      // }
+      // @each $divs in $divcolor {
+      //   $divi: $divi + 1;
+      //   & .box#{$divi} {
+      //     background-color: $divs;
+      //   }
+      // }
     }
   }
 }
