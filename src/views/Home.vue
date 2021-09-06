@@ -147,9 +147,20 @@
           />
         </div>
         <div class="home-wrap-cont-scroll">
-          <div class="home-wrap-cont-scroll-item scroll-item-1"></div>
-          <div class="home-wrap-cont-scroll-item scroll-item-2"></div>
-          <div class="home-wrap-cont-scroll-item scroll-item-3"></div>
+          <div class="home-wrap-cont-scroll-item scroll-item-1">
+            <h1 class="h1">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt
+              enim dolores nulla optio commodi. Asperiores accusamus, quaerat
+              delectus laudantium natus ad eos accusantium necessitatibus magnam
+              qui labore, quidem sint minus!
+            </h1>
+          </div>
+          <div class="home-wrap-cont-scroll-item scroll-item-2">
+            <h1>2</h1>
+          </div>
+          <div class="home-wrap-cont-scroll-item scroll-item-3">
+            <h1>3</h1>
+          </div>
         </div>
       </div>
     </div>
@@ -195,6 +206,9 @@ export default {
     t1.fromTo('.header', 1, {
       opacity: 0,
     }, {
+      onStart: () => {
+        // this.get3D();
+      },
       opacity: 1,
     });
     const t3 = this.gsap.timeline();
@@ -287,7 +301,7 @@ export default {
     this.scrollTrigger.create({
       animation: t6,
       trigger: '.home-wrap-cont-opa',
-      start: 'top center',
+      start: 'top top',
       end: '+=100%',
       markers: true,
       id: 'opa',
@@ -299,193 +313,204 @@ export default {
       },
     });
     const t7 = this.gsap.timeline();
-    t7.from('.scroll-item-1', 2, { xPercent: '-100' })
-      .from('.scroll-item-2', 2, { xPercent: '100' })
-      .from('.scroll-item-3', 2, { xPercent: '-100' });
+    t7.from('.scroll-item-1', {
+      autoAlpha: 0,
+      onStart: () => {
+        this.gsap.fromTo('.h1', 2, { y: -200, autoAlpha: 0 }, { y: 0, autoAlpha: 1 });
+      },
+    })
+      .from('.scroll-item-2', { autoAlpha: 0 })
+      .from('.scroll-item-3', { autoAlpha: 0 });
     this.scrollTrigger.create({
       animation: t7,
       trigger: '.home-wrap-cont-scroll',
       start: 'top top',
-      end: '+=100%',
+      end: '+=1000%',
       scrub: true,
       pin: true,
       anticipatePin: 1,
       id: 'scrollbg',
       // markers: true,
     });
-
-    // 地球
-    const earth = document.getElementById('earth');
-    const scene = new this.THREE.Scene();
-    const renderer = new this.THREE.WebGLRenderer({
-      canvas: earth,
-      alpha: true,
-    });
-    // window.innerWidth, window.innerHeight
-    renderer.setSize(150, 150);
-    const camera = new this.THREE.PerspectiveCamera(
-      45,
-      1,
-      1,
-      2000,
-    );
-    camera.position.z = 25;
-    camera.lookAt(0, 0, 0);
-    const light = new this.THREE.AmbientLight('white');
-    scene.add(light);
-    const texture = new this.THREE.TextureLoader().load('/3d/earth.jpeg');
-    const geometry = new this.THREE.SphereGeometry(8, 50, 50);
-    const material = new this.THREE.MeshLambertMaterial({
-      map: texture,
-    });
-    const mesh = new this.THREE.Mesh(geometry, material);
-    scene.add(mesh);
-    const control = new OrbitControls(camera, renderer.domElement);
-    control.target = new this.THREE.Vector3(0, 0, 0);
-    control.autoRotate = false;
-    control.enablePan = false;
-    control.enableZoom = false;
-    function animate() {
-      requestAnimationFrame(animate);
-      mesh.rotation.y += 0.002;
-      control.update();
-      renderer.render(scene, camera);
-    }
-    animate();
-    // 水星
-    const Material = document.getElementById('Material');
-    const scene2 = new this.THREE.Scene();
-    const renderer2 = new this.THREE.WebGLRenderer({
-      canvas: Material,
-      alpha: true,
-    });
-    // window.innerWidth, window.innerHeight
-    renderer2.setSize(150, 150);
-    const camera2 = new this.THREE.PerspectiveCamera(
-      45,
-      1,
-      1,
-      2000,
-    );
-    camera2.position.z = 25;
-    camera2.lookAt(0, 0, 0);
-    const light2 = new this.THREE.AmbientLight('white');
-    scene2.add(light2);
-    const texture2 = new this.THREE.TextureLoader().load('/3d/Material.jpeg');
-    const geometry2 = new this.THREE.SphereGeometry(8, 50, 50);
-    const material2 = new this.THREE.MeshLambertMaterial({
-      map: texture2,
-    });
-    const mesh2 = new this.THREE.Mesh(geometry2, material2);
-    scene2.add(mesh2);
-    const control2 = new OrbitControls(camera2, renderer2.domElement);
-    control2.target = new this.THREE.Vector3(0, 0, 0);
-    control2.autoRotate = false;
-    control2.enablePan = false;
-    control2.enableZoom = false;
-    function animate2() {
-      requestAnimationFrame(animate2);
-      mesh2.rotation.y += 0.003;
-      control2.update();
-      renderer2.render(scene2, camera2);
-    }
-    animate2();
-    // 木星
-    const Jupiter = document.getElementById('Jupiter');
-    const scene3 = new this.THREE.Scene();
-    const renderer3 = new this.THREE.WebGLRenderer({
-      canvas: Jupiter,
-      alpha: true,
-    });
-    renderer3.setSize(100, 100);
-    const camera3 = new this.THREE.PerspectiveCamera(
-      45,
-      1,
-      1,
-      2000,
-    );
-    camera3.position.z = 30;
-    camera3.lookAt(0, 0, 0);
-    const light3 = new this.THREE.AmbientLight('white');
-    scene3.add(light3);
-    const texture3 = new this.THREE.TextureLoader().load('/3d/Jupiter.jpg');
-    const geometry3 = new this.THREE.SphereGeometry(8, 50, 50);
-    const material3 = new this.THREE.MeshLambertMaterial({
-      map: texture3,
-    });
-    const mesh3 = new this.THREE.Mesh(geometry3, material3);
-    scene3.add(mesh3);
-    function animate3() {
-      requestAnimationFrame(animate3);
-      mesh3.rotation.y += 0.003;
-      renderer3.render(scene3, camera3);
-    }
-    animate3();
-    // 金星
-    const Venus = document.getElementById('Venus');
-    const scene4 = new this.THREE.Scene();
-    const renderer4 = new this.THREE.WebGLRenderer({
-      canvas: Venus,
-      alpha: true,
-    });
-    renderer4.setSize(100, 100);
-    const camera4 = new this.THREE.PerspectiveCamera(
-      45,
-      1,
-      1,
-      2000,
-    );
-    camera4.position.z = 30;
-    camera4.lookAt(0, 0, 0);
-    const light4 = new this.THREE.AmbientLight('white');
-    scene4.add(light4);
-    const texture4 = new this.THREE.TextureLoader().load('/3d/venus.jpeg');
-    const geometry4 = new this.THREE.SphereGeometry(8, 50, 50);
-    const material4 = new this.THREE.MeshLambertMaterial({
-      map: texture4,
-    });
-    const mesh4 = new this.THREE.Mesh(geometry4, material4);
-    scene4.add(mesh4);
-    function animate4() {
-      requestAnimationFrame(animate4);
-      mesh4.rotation.y += 0.003;
-      renderer4.render(scene4, camera4);
-    }
-    animate4();
-    // 冥王星
-    const Pluto = document.getElementById('Pluto');
-    const scene5 = new this.THREE.Scene();
-    const renderer5 = new this.THREE.WebGLRenderer({
-      canvas: Pluto,
-      alpha: true,
-    });
-    renderer5.setSize(100, 100);
-    const camera5 = new this.THREE.PerspectiveCamera(
-      45,
-      1,
-      1,
-      2000,
-    );
-    camera5.position.z = 30;
-    camera5.lookAt(0, 0, 0);
-    const light5 = new this.THREE.AmbientLight('white');
-    scene5.add(light5);
-    const texture5 = new this.THREE.TextureLoader().load('/3d/pluto.png');
-    const geometry5 = new this.THREE.SphereGeometry(8, 50, 50);
-    const material5 = new this.THREE.MeshLambertMaterial({
-      map: texture5,
-    });
-    const mesh5 = new this.THREE.Mesh(geometry5, material5);
-    scene5.add(mesh5);
-    function animate5() {
-      requestAnimationFrame(animate5);
-      mesh5.rotation.y += 0.003;
-      renderer5.render(scene5, camera5);
-    }
-    animate5();
+    this.get3D();
+  },
+  methods: {
+    get3D() {
+      // 地球
+      const earth = document.getElementById('earth');
+      const scene = new this.THREE.Scene();
+      const renderer = new this.THREE.WebGLRenderer({
+        canvas: earth,
+        alpha: true,
+      });
+      // window.innerWidth, window.innerHeight
+      renderer.setSize(150, 150);
+      const camera = new this.THREE.PerspectiveCamera(
+        45,
+        1,
+        1,
+        2000,
+      );
+      camera.position.z = 25;
+      camera.lookAt(0, 0, 0);
+      const light = new this.THREE.AmbientLight('white');
+      scene.add(light);
+      const texture = new this.THREE.TextureLoader().load('/3d/earth.jpeg');
+      const geometry = new this.THREE.SphereGeometry(8, 50, 50);
+      const material = new this.THREE.MeshLambertMaterial({
+        map: texture,
+      });
+      const mesh = new this.THREE.Mesh(geometry, material);
+      scene.add(mesh);
+      const control = new OrbitControls(camera, renderer.domElement);
+      control.target = new this.THREE.Vector3(0, 0, 0);
+      control.autoRotate = false;
+      control.enablePan = false;
+      control.enableZoom = false;
+      function animate() {
+        requestAnimationFrame(animate);
+        mesh.rotation.y += 0.002;
+        control.update();
+        renderer.render(scene, camera);
+      }
+      animate();
+      // 水星
+      const Material = document.getElementById('Material');
+      const scene2 = new this.THREE.Scene();
+      const renderer2 = new this.THREE.WebGLRenderer({
+        canvas: Material,
+        alpha: true,
+      });
+      // window.innerWidth, window.innerHeight
+      renderer2.setSize(150, 150);
+      const camera2 = new this.THREE.PerspectiveCamera(
+        45,
+        1,
+        1,
+        2000,
+      );
+      camera2.position.z = 25;
+      camera2.lookAt(0, 0, 0);
+      const light2 = new this.THREE.AmbientLight('white');
+      scene2.add(light2);
+      const texture2 = new this.THREE.TextureLoader().load('/3d/Material.jpeg');
+      const geometry2 = new this.THREE.SphereGeometry(8, 50, 50);
+      const material2 = new this.THREE.MeshLambertMaterial({
+        map: texture2,
+      });
+      const mesh2 = new this.THREE.Mesh(geometry2, material2);
+      scene2.add(mesh2);
+      const control2 = new OrbitControls(camera2, renderer2.domElement);
+      control2.target = new this.THREE.Vector3(0, 0, 0);
+      control2.autoRotate = false;
+      control2.enablePan = false;
+      control2.enableZoom = false;
+      function animate2() {
+        requestAnimationFrame(animate2);
+        mesh2.rotation.y += 0.003;
+        control2.update();
+        renderer2.render(scene2, camera2);
+      }
+      animate2();
+      // 木星
+      const Jupiter = document.getElementById('Jupiter');
+      const scene3 = new this.THREE.Scene();
+      const renderer3 = new this.THREE.WebGLRenderer({
+        canvas: Jupiter,
+        alpha: true,
+      });
+      renderer3.setSize(100, 100);
+      const camera3 = new this.THREE.PerspectiveCamera(
+        45,
+        1,
+        1,
+        2000,
+      );
+      camera3.position.z = 30;
+      camera3.lookAt(0, 0, 0);
+      const light3 = new this.THREE.AmbientLight('white');
+      scene3.add(light3);
+      const texture3 = new this.THREE.TextureLoader().load('/3d/Jupiter.jpg');
+      const geometry3 = new this.THREE.SphereGeometry(8, 50, 50);
+      const material3 = new this.THREE.MeshLambertMaterial({
+        map: texture3,
+      });
+      const mesh3 = new this.THREE.Mesh(geometry3, material3);
+      scene3.add(mesh3);
+      function animate3() {
+        requestAnimationFrame(animate3);
+        mesh3.rotation.y += 0.003;
+        renderer3.render(scene3, camera3);
+      }
+      animate3();
+      // 金星
+      const Venus = document.getElementById('Venus');
+      const scene4 = new this.THREE.Scene();
+      const renderer4 = new this.THREE.WebGLRenderer({
+        canvas: Venus,
+        alpha: true,
+      });
+      renderer4.setSize(100, 100);
+      const camera4 = new this.THREE.PerspectiveCamera(
+        45,
+        1,
+        1,
+        2000,
+      );
+      camera4.position.z = 30;
+      camera4.lookAt(0, 0, 0);
+      const light4 = new this.THREE.AmbientLight('white');
+      scene4.add(light4);
+      const texture4 = new this.THREE.TextureLoader().load('/3d/venus.jpeg');
+      const geometry4 = new this.THREE.SphereGeometry(8, 50, 50);
+      const material4 = new this.THREE.MeshLambertMaterial({
+        map: texture4,
+      });
+      const mesh4 = new this.THREE.Mesh(geometry4, material4);
+      scene4.add(mesh4);
+      function animate4() {
+        requestAnimationFrame(animate4);
+        mesh4.rotation.y += 0.003;
+        renderer4.render(scene4, camera4);
+      }
+      animate4();
+      // 冥王星
+      const Pluto = document.getElementById('Pluto');
+      const scene5 = new this.THREE.Scene();
+      const renderer5 = new this.THREE.WebGLRenderer({
+        canvas: Pluto,
+        alpha: true,
+      });
+      renderer5.setSize(100, 100);
+      const camera5 = new this.THREE.PerspectiveCamera(
+        45,
+        1,
+        1,
+        2000,
+      );
+      camera5.position.z = 30;
+      camera5.lookAt(0, 0, 0);
+      const light5 = new this.THREE.AmbientLight('white');
+      scene5.add(light5);
+      const texture5 = new this.THREE.TextureLoader().load('/3d/pluto.png');
+      const geometry5 = new this.THREE.SphereGeometry(8, 50, 50);
+      const material5 = new this.THREE.MeshLambertMaterial({
+        map: texture5,
+      });
+      const mesh5 = new this.THREE.Mesh(geometry5, material5);
+      scene5.add(mesh5);
+      function animate5() {
+        requestAnimationFrame(animate5);
+        mesh5.rotation.y += 0.003;
+        renderer5.render(scene5, camera5);
+      }
+      animate5();
+    },
   },
   beforeDestroy() {
     this.scrollTrigger.getById('bg3').kill();
+    this.scrollTrigger.getById('scrollbg').kill();
+    this.scrollTrigger.getById('opa').kill();
   },
 };
 </script>
@@ -702,7 +727,7 @@ export default {
     }
     &-scroll {
       overflow: hidden;
-      background-color: black;
+      background-color: rgb(199, 164, 164);
       height: 100vh;
       width: 100vw;
       position: relative;
@@ -827,7 +852,7 @@ export default {
         & > p {
           width: 80%;
           @include planetbg;
-          margin: 0px auto 30px auto;
+          margin: 0px auto 40px auto;
           // padding: 20px 20%;
         }
       }

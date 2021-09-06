@@ -235,7 +235,7 @@ export default {
   background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
   font-size: 30px;
   padding: 10px 0px;
-  z-index: 99999;
+  z-index: 9;
   @media (max-width: 768px) {
     left: 0px;
     width: 100vw;
@@ -296,6 +296,7 @@ export default {
   transition: left 1s ease-in-out;
   @media (max-width: 768px) {
     left: -250px;
+    z-index: 10;
     &.active {
       left: 0px;
     }

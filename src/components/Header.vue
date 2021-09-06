@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="header" ref="header">
     <div class="header-wrap">
       <div class="header-logo">
         <h1>
@@ -7,7 +7,7 @@
         </h1>
       </div>
       <div class="header-menu">
-        <ul ref="menu">
+        <ul>
           <li>
             <routerLink class="main-link" to="/about">關於我們</routerLink>
           </li>
@@ -62,16 +62,24 @@ export default {
         header.classList.remove('active');
       }
     });
+    window.onclick = (e) => {
+      if (e.target.matches('.header.mob-active')) {
+        const mobactive = document.querySelector('.header.mob-active');
+        mobactive.classList.remove('mob-active');
+        window.document.body.classList.remove('body-active');
+        this.mobShow = true;
+      }
+    };
   },
   methods: {
     mobOpen() {
       this.mobShow = false;
-      this.$refs.menu.classList.add('active');
+      this.$refs.header.classList.add('mob-active');
       window.document.body.classList.add('body-active');
     },
     mobHide() {
       this.mobShow = true;
-      this.$refs.menu.classList.remove('active');
+      this.$refs.header.classList.remove('mob-active');
       window.document.body.classList.remove('body-active');
     },
   },
@@ -90,8 +98,19 @@ export default {
   width: 100%;
   z-index: 99999999;
   transition: all 0.5s;
-  overflow-x: hidden;
   // opacity: 0;
+  &.mob-active {
+    height: 100vh;
+    background-color: rgba(156, 156, 156, 0.5);
+    .header {
+      &-menu {
+        & > ul {
+          opacity: 1;
+          right: 0px;
+        }
+      }
+    }
+  }
   &-wrap {
     max-width: 1440px;
     width: 100%;
@@ -116,9 +135,6 @@ export default {
     @media (max-width: 768px) {
       padding: 0;
     }
-    .active {
-      top: 0px;
-    }
     & > ul {
       display: flex;
       align-items: center;
@@ -128,27 +144,32 @@ export default {
       padding-left: 0;
       @media (max-width: 768px) {
         position: fixed;
-        top: -100vh;
-        left: 0px;
-        right: 0px;
-        width: 100%;
+        width: 200px;
         height: 100vh;
+        top: 0px;
+        right: -200px;
+        padding: 35px 0;
+        opacity: 0;
+        padding-top: 75px;
         margin-right: 0px;
         background-color: #000;
         flex-direction: column;
-        justify-content: center;
+        justify-content: start;
       }
       & > li {
         margin-right: 15px;
         @media (max-width: 768px) {
           margin-right: 0px;
           margin-bottom: 15px;
-          font-size: 1.1rem;
+          font-size: 16px;
+          width: 80%;
+          border-bottom: 1px solid #252525;
+          text-align: right;
         }
         & > a {
           @media (max-width: 768px) {
-            padding-bottom: 5px;
-            border-bottom: 1px solid #252525;
+            display: block;
+            padding-bottom: 10px;
           }
         }
       }
@@ -165,6 +186,9 @@ export default {
       & > img {
         width: 24px;
         z-index: 9;
+        @media (max-width: 768px) {
+          width: 16px;
+        }
       }
     }
   }
