@@ -135,32 +135,29 @@
             </p>
           </div>
         </div>
-        <div class="home-wrap-cont-opa">
-          <!-- <h2>132456</h2>
-          <div class="box box1"></div>
-          <div class="box box2"></div>
-          <div class="box box3"></div> -->
-          <img
-            src="~@/assets/images/frontEnd/astronaut-2.png"
-            alt=""
-            class="img-opa"
-          />
-        </div>
         <div class="home-wrap-cont-scroll">
           <div class="home-wrap-cont-scroll-item scroll-item-1">
-            <h1 class="h1">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt
-              enim dolores nulla optio commodi. Asperiores accusamus, quaerat
-              delectus laudantium natus ad eos accusantium necessitatibus magnam
-              qui labore, quidem sint minus!
-            </h1>
+            <div class="scroll-cont scroll-cont-1">
+              <div class="scroll-cont-txt">1564646516515</div>
+              <div class="scroll-cont-img"></div>
+            </div>
           </div>
           <div class="home-wrap-cont-scroll-item scroll-item-2">
-            <h1>2</h1>
+            <div class="scroll-cont-txt"></div>
+            <div class="scroll-cont-img"></div>
           </div>
           <div class="home-wrap-cont-scroll-item scroll-item-3">
-            <h1>3</h1>
+            <div class="scroll-cont-txt"></div>
+            <div class="scroll-cont-img"></div>
           </div>
+        </div>
+        <div class="home-wrap-cont-fly">
+          <img
+            src="~@/assets/images/frontEnd/rocket.png"
+            alt=""
+            class="img-fly"
+          />
+          <canvas id="moon" class="moon"></canvas>
         </div>
       </div>
     </div>
@@ -276,47 +273,11 @@ export default {
       id: 'rocket-item',
       // markers: true,
     });
-    const t6 = this.gsap.timeline();
-    t6.to('.img-opa', 5, {
-      motionPath: {
-        path: [
-          { x: 100, y: 0 },
-          { x: 100, y: 200 },
-          { x: 200, y: 0 },
-          { x: 400, y: 300 },
-          { x: 600, y: 0 },
-          { x: window.innerWidth, y: 300 }],
-        autoRotate: 26,
-        // alignOrigin: [0.5, 0.5],
-      },
-      // transformOrigin: '50% 50%',
-      // xPercent: -50,
-      // yPercent: -50,
-    });
-    // this.MotionPathHelper.create('.img-opa');
-    // t6.to('.box3', 2, { opacity: 0 });
-    // t6.to('.box2', 2, { opacity: 0 });
-    // t6.to('.box1', 2, { opacity: 0 });
-    // t6.to('.img-opa', 2, { x: 100 });
-    this.scrollTrigger.create({
-      animation: t6,
-      trigger: '.home-wrap-cont-opa',
-      start: 'top top',
-      end: '+=100%',
-      markers: true,
-      id: 'opa',
-      scrub: true,
-      pin: true,
-      onEnterBack: () => {
-        // this.scrollTrigger.getById('opa').refresh();
-        console.log('back');
-      },
-    });
     const t7 = this.gsap.timeline();
     t7.from('.scroll-item-1', {
       autoAlpha: 0,
       onStart: () => {
-        this.gsap.fromTo('.h1', 2, { y: -200, autoAlpha: 0 }, { y: 0, autoAlpha: 1 });
+        this.gsap.fromTo('.scroll-cont-1 .scroll-cont-txt', 2, { y: -200, autoAlpha: 0 }, { y: 0, autoAlpha: 1 });
       },
     })
       .from('.scroll-item-2', { autoAlpha: 0 })
@@ -325,12 +286,55 @@ export default {
       animation: t7,
       trigger: '.home-wrap-cont-scroll',
       start: 'top top',
-      end: '+=1000%',
+      end: '+=400%',
       scrub: true,
       pin: true,
       anticipatePin: 1,
       id: 'scrollbg',
       // markers: true,
+    });
+    const t6 = this.gsap.timeline();
+    t6.to('.img-fly', 5, {
+      motionPath: {
+        path: [
+          { x: 100, y: 0 },
+          { x: 100, y: 200 },
+          { scale: 1 },
+          { scale: 3 },
+          { scale: 0.8 },
+          // { x: 200, y: 0 },
+          // { x: 400, y: 300 },
+          // { x: 600, y: 0 },
+          // { x: window.innerWidth, y: 300 },
+          // { x: 600 },
+        ],
+        alignOrigin: [0.5, 0.5],
+        autoRotate: 45,
+      },
+      onComplete: () => {
+        this.gsap.to('.moon', 2, {
+          css: {
+            bottom: 0,
+          },
+        });
+      },
+    });
+    this.scrollTrigger.create({
+      animation: t6,
+      trigger: '.home-wrap-cont-fly',
+      start: 'top top',
+      end: '+=500% bottom',
+      markers: true,
+      id: 'fly',
+      scrub: true,
+      pin: true,
+      onEnterBack: () => {
+        this.gsap.to('.moon', 2, {
+          css: {
+            bottom: '-50%',
+          },
+        });
+      },
     });
     this.get3D();
   },
@@ -505,12 +509,44 @@ export default {
         renderer5.render(scene5, camera5);
       }
       animate5();
+      // 月球
+      const moon = document.getElementById('moon');
+      const scene6 = new this.THREE.Scene();
+      const renderer6 = new this.THREE.WebGLRenderer({
+        canvas: moon,
+        alpha: true,
+      });
+      renderer6.setSize(window.innerWidth, window.innerHeight);
+      const camera6 = new this.THREE.PerspectiveCamera(
+        45,
+        window.innerWidth / window.innerHeight,
+        1,
+        2000,
+      );
+      // camera6.position.y = 10;
+      camera6.position.z = 11;
+      camera6.lookAt(0, 0, 0);
+      const light6 = new this.THREE.AmbientLight('white');
+      scene6.add(light6);
+      const texture6 = new this.THREE.TextureLoader().load('/3d/moon.jpeg');
+      const geometry6 = new this.THREE.SphereGeometry(8, 50, 50);
+      const material6 = new this.THREE.MeshLambertMaterial({
+        map: texture6,
+      });
+      const mesh6 = new this.THREE.Mesh(geometry6, material6);
+      scene6.add(mesh6);
+      function animate6() {
+        requestAnimationFrame(animate6);
+        camera6.position.y = 8;
+        renderer6.render(scene6, camera6);
+      }
+      animate6();
     },
   },
   beforeDestroy() {
     this.scrollTrigger.getById('bg3').kill();
     this.scrollTrigger.getById('scrollbg').kill();
-    this.scrollTrigger.getById('opa').kill();
+    this.scrollTrigger.getById('fly').kill();
   },
 };
 </script>
@@ -725,36 +761,6 @@ export default {
         @include planetbg;
       }
     }
-    &-scroll {
-      overflow: hidden;
-      background-color: rgb(199, 164, 164);
-      height: 100vh;
-      width: 100vw;
-      position: relative;
-      &-item {
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        background-color: black;
-        $i: 0;
-        $scroll-color: (
-          rgb(255, 106, 106),
-          rgb(113, 215, 255),
-          rgb(117, 245, 117)
-        );
-        // @each $item in $scroll-color {
-        //   &.scroll-item-#{index($scroll-color,($item))} {
-        //     background-color: $item;
-        //   }
-        // }
-        @each $color in $scroll-color {
-          $i: $i + 1;
-          &.scroll-item-#{$i} {
-            background-color: $color;
-          }
-        }
-      }
-    }
     &-item.rocket-bg {
       position: relative;
       overflow: hidden;
@@ -857,35 +863,89 @@ export default {
         }
       }
     }
-    &-opa {
+    &-scroll {
+      overflow: hidden;
+      background-color: rgb(0, 0, 0);
+      height: 100vh;
+      width: 100vw;
+      position: relative;
+      &-item {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        background-color: black;
+        $i: 0;
+        $scroll-color: (
+          rgb(255, 106, 106),
+          rgb(113, 215, 255),
+          rgb(117, 245, 117)
+        );
+        @each $color in $scroll-color {
+          $i: $i + 1;
+          &.scroll-item-#{$i} {
+            z-index: $i;
+            // background-color: $color;
+          }
+        }
+        .scroll-cont {
+          width: 100%;
+          margin: 0 auto;
+          position: relative;
+          &-txt {
+            position: relative;
+            z-index: 9;
+            margin-top: 60px;
+            color: #fff;
+          }
+          &-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            // max-width: 1400px;
+            width: 100%;
+            height: 100vh;
+            background: url(~@/assets/images/frontEnd/bg6.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+          }
+        }
+      }
+      &-item:nth-of-type(2) {
+        .scroll-cont {
+          &-img {
+            background: url(~@/assets/images/frontEnd/bg7.jpg);
+          }
+        }
+      }
+      &-item:nth-of-type(3) {
+        .scroll-cont {
+          &-img {
+            background: url(~@/assets/images/frontEnd/bg8.jpg);
+          }
+        }
+      }
+    }
+    &-fly {
       position: relative;
       height: 100vh;
       width: 100vw;
       overflow: hidden;
-      background-color: #fff;
+      background: url(~@/assets/images/frontEnd/bg5.jpg);
       & > img {
         position: absolute;
         left: 0;
-        top: 0;
+        top: 50%;
+        transform: translateY(-50%);
       }
-      // $divcolor: (rgb(255, 106, 106), rgb(113, 215, 255), rgb(117, 245, 117));
-      // $divi: 0;
-      // & .box {
-      //   position: absolute;
-      //   width: 100px;
-      //   height: 100px;
-      //   background-color: rgb(255, 129, 129);
-      //   left: 50%;
-      //   transform: translateX(-50%);
-      //   opacity: 1;
-      //   z-index: 1;
-      // }
-      // @each $divs in $divcolor {
-      //   $divi: $divi + 1;
-      //   & .box#{$divi} {
-      //     background-color: $divs;
-      //   }
-      // }
+      #moon {
+        position: absolute;
+        left: 50%;
+        bottom: -50%;
+        transform: translateX(-50%);
+        z-index: 9;
+      }
     }
   }
 }
