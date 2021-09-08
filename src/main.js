@@ -8,6 +8,7 @@ import VueAxios from 'vue-axios';
 import gsap from 'gsap';
 import scrollTrigger from 'gsap/ScrollTrigger';
 import MotionPathPlugin from 'gsap/MotionPathPlugin';
+import SplitText from 'gsap/TextPlugin';
 import * as THREE from 'three';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
@@ -16,7 +17,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 
-gsap.registerPlugin(scrollTrigger, MotionPathPlugin);
+gsap.registerPlugin(scrollTrigger, MotionPathPlugin, SplitText);
 Vue.use(ElementUI);
 Vue.use(Loading);
 Vue.component('load', Loading);

@@ -138,17 +138,36 @@
         <div class="home-wrap-cont-scroll">
           <div class="home-wrap-cont-scroll-item scroll-item-1">
             <div class="scroll-cont scroll-cont-1">
-              <div class="scroll-cont-txt">1564646516515</div>
+              <div class="scroll-cont-txt">
+                <h5>火箭</h5>
+                <h4>Rocket X-plus</h4>
+                <p>構造介紹</p>
+                <router-link to="">前往查看</router-link>
+              </div>
               <div class="scroll-cont-img"></div>
             </div>
           </div>
           <div class="home-wrap-cont-scroll-item scroll-item-2">
-            <div class="scroll-cont-txt"></div>
-            <div class="scroll-cont-img"></div>
+            <div class="scroll-cont scroll-cont-2">
+              <div class="scroll-cont-txt">
+                <h5>太空衣</h5>
+                <h4>Rocket X-plus</h4>
+                <p>構造介紹</p>
+                <router-link to="">前往查看</router-link>
+              </div>
+              <div class="scroll-cont-img"></div>
+            </div>
           </div>
           <div class="home-wrap-cont-scroll-item scroll-item-3">
-            <div class="scroll-cont-txt"></div>
-            <div class="scroll-cont-img"></div>
+            <div class="scroll-cont scroll-cont-3">
+              <div class="scroll-cont-txt">
+                <h5>登月案例</h5>
+                <h4>Rocket X-plus</h4>
+                <p>構造介紹</p>
+                <router-link to="">前往查看</router-link>
+              </div>
+              <div class="scroll-cont-img"></div>
+            </div>
           </div>
         </div>
         <div class="home-wrap-cont-fly">
@@ -157,16 +176,22 @@
             alt=""
             class="img-fly"
           />
+          <h4 class="loginMoon"></h4>
           <canvas id="moon" class="moon"></canvas>
         </div>
       </div>
     </div>
+    <frontFooter />
   </div>
 </template>
 <script>
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import frontFooter from '../components/Footer.vue';
 
 export default {
+  components: {
+    frontFooter,
+  },
   mounted() {
     const body = document.getElementsByTagName('body')[0];
     const t1 = this.gsap.timeline();
@@ -273,17 +298,18 @@ export default {
       id: 'rocket-item',
       // markers: true,
     });
-    const t7 = this.gsap.timeline();
-    t7.from('.scroll-item-1', {
-      autoAlpha: 0,
-      onStart: () => {
-        this.gsap.fromTo('.scroll-cont-1 .scroll-cont-txt', 2, { y: -200, autoAlpha: 0 }, { y: 0, autoAlpha: 1 });
-      },
-    })
-      .from('.scroll-item-2', { autoAlpha: 0 })
-      .from('.scroll-item-3', { autoAlpha: 0 });
+    const opaitem = document.querySelectorAll('.home-wrap-cont-scroll-item');
+    const t6 = this.gsap.timeline();
+    opaitem.forEach((item) => {
+      t6.from(item, {
+        autoAlpha: 0,
+        onStart: () => {
+          this.gsap.fromTo(item.children[0].children[0], 2, { y: -400, autoAlpha: 0 }, { y: 0, autoAlpha: 1 });
+        },
+      });
+    });
     this.scrollTrigger.create({
-      animation: t7,
+      animation: t6,
       trigger: '.home-wrap-cont-scroll',
       start: 'top top',
       end: '+=400%',
@@ -293,38 +319,49 @@ export default {
       id: 'scrollbg',
       // markers: true,
     });
-    const t6 = this.gsap.timeline();
-    t6.to('.img-fly', 5, {
+    const t7 = this.gsap.timeline();
+    const innerwidth = document.body.clientWidth / 10;
+    const innerHeight = window.innerHeight / 10;
+    t7.to('.img-fly', 5, {
       motionPath: {
         path: [
-          { x: 100, y: 0 },
-          { x: 100, y: 200 },
-          { scale: 1 },
-          { scale: 3 },
-          { scale: 0.8 },
-          // { x: 200, y: 0 },
-          // { x: 400, y: 300 },
-          // { x: 600, y: 0 },
-          // { x: window.innerWidth, y: 300 },
-          // { x: 600 },
+          { x: innerwidth, y: innerHeight * 1 },
+          { x: innerwidth * 2, y: innerHeight * 2 },
+          { x: innerwidth * 3, y: innerHeight * -3 },
+          { x: innerwidth * 4, y: innerHeight * 1 },
+          { x: innerwidth * 5, y: innerHeight * 2 },
+          { x: innerwidth * 6, y: innerHeight * -4 },
+          { x: innerwidth * 7, y: innerHeight * 3 },
+          { x: innerwidth * 8, y: innerHeight * 1 },
+          { x: innerwidth * 9, y: innerHeight * 6 },
+          { x: (document.body.clientWidth / 2) - 30, y: window.innerHeight / 6 },
         ],
         alignOrigin: [0.5, 0.5],
         autoRotate: 45,
       },
+      scale: 2,
       onComplete: () => {
-        this.gsap.to('.moon', 2, {
-          css: {
-            bottom: 0,
-          },
-        });
+        const fin = this.gsap.timeline();
+        fin.to('.img-fly', 2, {
+          rotation: -45,
+        })
+          .to('.moon', 2, {
+            css: {
+              bottom: 0,
+            },
+          }, '-=2')
+          .to('.loginMoon', {
+            duration: 3,
+            text: '登月計畫 Comming soon',
+          });
       },
     });
     this.scrollTrigger.create({
-      animation: t6,
+      animation: t7,
       trigger: '.home-wrap-cont-fly',
       start: 'top top',
-      end: '+=500% bottom',
-      markers: true,
+      end: '+=700% bottom',
+      // markers: true,
       id: 'fly',
       scrub: true,
       pin: true,
@@ -333,6 +370,10 @@ export default {
           css: {
             bottom: '-50%',
           },
+        });
+        this.gsap.to('.loginMoon', 2, {
+          text: '',
+          ease: 'step',
         });
       },
     });
@@ -889,12 +930,17 @@ export default {
         }
         .scroll-cont {
           width: 100%;
+          height: 100%;
           margin: 0 auto;
           position: relative;
           &-txt {
+            max-width: 1440px;
+            width: 90%;
             position: relative;
+            top: 20%;
+            transform: translateY(-80%);
             z-index: 9;
-            margin-top: 60px;
+            margin: 0 auto;
             color: #fff;
           }
           &-img {
@@ -905,8 +951,8 @@ export default {
             // max-width: 1400px;
             width: 100%;
             height: 100vh;
-            background: url(~@/assets/images/frontEnd/bg6.jpg);
-            background-size: cover;
+            background-image: url(~@/assets/images/frontEnd/bg6.png);
+            background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
           }
@@ -915,14 +961,14 @@ export default {
       &-item:nth-of-type(2) {
         .scroll-cont {
           &-img {
-            background: url(~@/assets/images/frontEnd/bg7.jpg);
+            background-image: url(~@/assets/images/frontEnd/bg7.png);
           }
         }
       }
       &-item:nth-of-type(3) {
         .scroll-cont {
           &-img {
-            background: url(~@/assets/images/frontEnd/bg8.jpg);
+            background-image: url(~@/assets/images/frontEnd/bg8.png);
           }
         }
       }
@@ -933,11 +979,16 @@ export default {
       width: 100vw;
       overflow: hidden;
       background: url(~@/assets/images/frontEnd/bg5.jpg);
+      & > h4 {
+        text-align: center;
+        margin-top: 180px;
+      }
       & > img {
         position: absolute;
         left: 0;
         top: 50%;
         transform: translateY(-50%);
+        z-index: 10;
       }
       #moon {
         position: absolute;
