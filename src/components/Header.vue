@@ -15,10 +15,10 @@
             <routerLink class="main-link" to="/news">太空事件</routerLink>
           </li>
           <li>
-            <routerLink class="main-link" to="/product">贊助計畫</routerLink>
+            <routerLink class="main-link" to="/products">贊助商品</routerLink>
           </li>
           <li>
-            <routerLink class="main-link" to="/product">模擬登月</routerLink>
+            <routerLink class="main-link" to="/vrlogin">模擬登月</routerLink>
           </li>
           <li>
             <routerLink class="main-link" to="/knowloge">認識SPACE</routerLink>

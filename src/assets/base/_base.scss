@@ -176,9 +176,11 @@ label {
 }
 
 input {
+  box-sizing: border-box;
   padding: 5px 8px;
   border-radius: 4px;
   font-size: 14px;
+  font-family: 'Kaisei Opti', serif;
 }
 
 // input type=number 箭頭消失
@@ -216,12 +218,12 @@ textarea {
   background-color: #f4f5fa;
   // padding: 0px 15px;
 
-  @media(max-width: 768px) {
+  @media (max-width: 768px) {
     margin-left: 0px;
     padding: 0px;
   }
 
-  &>h3 {
+  & > h3 {
     color: black;
     font-size: 24px;
     margin-left: 15px;
@@ -256,11 +258,12 @@ textarea {
   }
 }
 
-$color:(main:#0f2027,
+$color: (
+  main: #0f2027,
   second: #203a43,
   three: #2c5364,
-  hover:#71faa9,
-  white:#ffffff,
+  hover: #71faa9,
+  white: #ffffff,
 );
 
 @mixin container {

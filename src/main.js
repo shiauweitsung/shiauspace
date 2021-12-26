@@ -8,6 +8,8 @@ import VueAxios from 'vue-axios';
 import gsap from 'gsap';
 import scrollTrigger from 'gsap/ScrollTrigger';
 import MotionPathPlugin from 'gsap/MotionPathPlugin';
+import '@fortawesome/fontawesome-free/css/all.css';
+import '@fortawesome/fontawesome-free/js/all';
 import SplitText from 'gsap/TextPlugin';
 import * as THREE from 'three';
 import Loading from 'vue-loading-overlay';
@@ -29,7 +31,7 @@ Vue.use(THREE);
 
 Vue.config.productionTip = false;
 
-// 全域註冊gsap
+// 全域註冊
 Vue.mixin({
   created() {
     this.gsap = gsap;
