@@ -18,7 +18,7 @@
         <input type="checkbox" id="rememberID" v-model="isRemember" />
         <label for="rememberID">記住我</label>
       </div>
-      <input type="submit" @click="loginPage" class="login-btn" value="登入" />
+      <input type="submit" @click="loginPage" class="login-btn" value="登入" @click.prevent />
       <div class="login-form-forget">
         <a href="">忘記密碼</a> ｜
         <a href="">註冊帳號</a>
