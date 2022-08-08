@@ -3,7 +3,7 @@
     <loads />
     <div class="products-header">
       <div class="products-header-search">
-        <input type="text" placeholder="Search" />
+        <input type="text" placeholder="Search" v-model="search" />
       </div>
       <div class="products-header-category"></div>
     </div>
@@ -40,7 +40,15 @@ export default {
     ...mapActions('products', ['getProducts']),
   },
   computed: {
-    ...mapGetters('products', ['products', 'isNew']),
+    ...mapGetters('products', ['products']),
+    search: {
+      get() {
+        return this.$store.state.products.search;
+      },
+      set(value) {
+        this.$store.commit('products/UPDATE_SEARCH', value);
+      },
+    },
   },
   created() {
     this.getProducts();

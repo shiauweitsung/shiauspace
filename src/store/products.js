@@ -5,7 +5,8 @@ export default {
   namespaced: true,
   state: {
     products: [],
-    // isNew: false,
+    filterProducts: [],
+    search: '',
   },
   actions: {
     getProducts(context) {
@@ -22,12 +23,28 @@ export default {
     updateField,
     PRODUCTS(state, payload) {
       state.products = payload;
+      state.filterProducts = payload;
+    },
+    UPDATE_SEARCH(state, payload) {
+      state.search = payload;
+      let { products } = state;
+      if (payload === '') {
+        state.filterProducts = products;
+      } else {
+        state.filterProducts = products.filter((item) => {
+          if (item.title.includes(payload)) {
+            return item;
+          }
+          return null;
+        });
+      }
     },
   },
   getters: {
     getField,
     products(state) {
-      return state.products;
+      return state.filterProducts;
     },
+    search: (state) => state.search,
   },
 };
