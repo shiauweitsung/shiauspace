@@ -15,6 +15,7 @@
           :key="key"
           :data-delay="key"
           :style="{ '--key': key }"
+          @click="goDetail(item.id)"
         >
           <img :src="item.image" alt="" />
           <div class="products-list-item-info">
@@ -38,6 +39,9 @@ export default {
   },
   methods: {
     ...mapActions('products', ['getProducts']),
+    goDetail(id) {
+      this.$router.push(`/products/${id}`);
+    },
   },
   computed: {
     ...mapGetters('products', ['products']),
@@ -89,6 +93,11 @@ export default {
       flex-basis: 30%;
       margin-bottom: 20px;
       border: 1px solid white;
+      border-radius: 20px;
+      cursor: pointer;
+      &:hover{
+        background-color: #292929;
+      }
       @media (max-width: 768px) {
         max-width: 47%;
         flex-basis: 47%;
@@ -100,6 +109,8 @@ export default {
       & > img {
         max-width: 100%;
         width: 100%;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
       }
       &-info {
         padding: 10px;
