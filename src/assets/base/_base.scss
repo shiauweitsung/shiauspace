@@ -164,6 +164,7 @@ button {
   outline: none;
   border: transparent;
   background-color: transparent;
+  font-family: 'Kaisei Opti', serif;
 }
 
 button:focus {
@@ -263,6 +264,7 @@ $color: (
   second: #203a43,
   three: #2c5364,
   hover: #71faa9,
+  primary: #57f79a,
   white: #ffffff,
 );
 
